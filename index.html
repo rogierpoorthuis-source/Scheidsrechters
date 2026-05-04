@@ -21,10 +21,7 @@
   --border-subtle: rgba(255,255,255,0.05);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  background: var(--bg); color: var(--text);
-  font-family: 'Barlow', sans-serif; min-height: 100vh; overflow-x: hidden;
-}
+body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; min-height: 100vh; overflow-x: hidden; }
 body::before {
   content: ''; position: fixed; inset: 0;
   background-image:
@@ -33,19 +30,19 @@ body::before {
   pointer-events: none; z-index: 0;
 }
 .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 36px 16px 80px; }
+
+/* HERO */
 .hero { text-align: center; margin-bottom: 36px; }
 .hero-badge {
   display: inline-block; background: var(--accent-glow); border: 1px solid var(--border);
   color: var(--accent-light); font-family: 'Oswald', sans-serif; font-size: 10px;
   letter-spacing: 3px; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; text-transform: uppercase;
 }
-.hero h1 {
-  font-family: 'Oswald', sans-serif; font-size: clamp(26px, 6vw, 52px);
-  font-weight: 700; line-height: 1.08; color: #fff; text-transform: uppercase; letter-spacing: -0.5px;
-}
+.hero h1 { font-family: 'Oswald', sans-serif; font-size: clamp(26px, 6vw, 52px); font-weight: 700; line-height: 1.08; color: #fff; text-transform: uppercase; letter-spacing: -0.5px; }
 .hero h1 span { color: var(--accent); }
 .hero p { margin-top: 10px; color: var(--muted); font-size: 14px; font-weight: 300; }
 
+/* PANEL */
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
 .panel-title {
   font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 2.5px;
@@ -55,6 +52,8 @@ body::before {
 .panel-title::before { content: ''; width: 3px; height: 13px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
 .panel-title.gold { color: var(--accent2); }
 .panel-title.gold::before { background: var(--accent2); }
+.panel-title.green-c { color: var(--green); }
+.panel-title.green-c::before { background: var(--green); }
 
 .section-label {
   font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 3px;
@@ -70,6 +69,22 @@ body::before {
   gap: 8px; margin-bottom: 28px; transition: all 0.18s; width: 100%; justify-content: center;
 }
 .back-btn:hover, .back-btn:active { border-color: var(--accent); color: var(--accent); }
+
+/* CONTACT */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (min-width: 500px) { .contact-grid { grid-template-columns: repeat(3, 1fr); } }
+.contact-card {
+  background: var(--surface2); border: 1px solid var(--border-subtle);
+  border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px;
+}
+.contact-role { font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent2); }
+.contact-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.contact-tel {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--accent-light); text-decoration: none;
+  margin-top: 2px; font-family: 'Oswald', sans-serif; font-weight: 600; letter-spacing: 0.5px;
+}
+.contact-tel:hover { color: var(--accent); }
 
 /* GAME BUTTONS */
 .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -95,10 +110,7 @@ body::before {
 
 /* LEADERBOARD */
 .lb-table { width: 100%; border-collapse: collapse; }
-.lb-table th {
-  font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--muted); padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border);
-}
+.lb-table th { font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
 .lb-table td { padding: 9px 8px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); }
 .lb-table tr:last-child td { border-bottom: none; }
 .lb-rank { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--muted); width: 28px; }
@@ -109,56 +121,39 @@ body::before {
 
 /* RESULTS */
 .results-round { margin-bottom: 14px; }
-.results-round-header {
-  font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
-  display: flex; align-items: center; gap: 8px;
-}
-.r-time {
-  background: var(--accent-glow); border: 1px solid var(--border);
-  border-radius: 3px; padding: 2px 7px; font-size: 10px; color: var(--accent-light);
-}
-.result-row {
-  display: flex; align-items: center; gap: 8px; padding: 8px 10px;
-  background: var(--surface2); border: 1px solid var(--border-subtle);
-  border-radius: 7px; margin-bottom: 5px;
-}
+.results-round-header { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.r-time { background: var(--accent-glow); border: 1px solid var(--border); border-radius: 3px; padding: 2px 7px; font-size: 10px; color: var(--accent-light); }
+.result-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--surface2); border: 1px solid var(--border-subtle); border-radius: 7px; margin-bottom: 5px; }
 .result-team { flex: 1; font-size: 13px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .result-team.right { text-align: right; }
-.result-score {
-  font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700;
-  color: var(--accent-light); min-width: 52px; text-align: center;
-  background: var(--bg); border: 1px solid var(--border); border-radius: 5px; padding: 4px 6px;
-}
+.result-score { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; color: var(--accent-light); min-width: 52px; text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: 5px; padding: 4px 6px; }
 .result-score.pending { color: var(--muted); font-size: 12px; font-weight: 400; }
-.result-game-tag {
-  font-size: 10px; color: var(--muted); white-space: nowrap;
-  background: var(--surface); border: 1px solid var(--border-subtle);
-  border-radius: 3px; padding: 2px 6px;
+.result-game-tag { font-size: 10px; color: var(--muted); white-space: nowrap; background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 3px; padding: 2px 6px; }
+
+/* MAP */
+.map-wrapper { width: 100%; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,106,0,0.2); }
+.map-wrapper img { width: 100%; display: block; border-radius: 10px; }
+.map-caption { font-size: 11px; color: var(--muted); text-align: center; margin-top: 10px; font-style: italic; }
+
+/* SPELREGELS */
+.rules-placeholder {
+  background: var(--surface2); border: 1px dashed rgba(255,106,0,0.25);
+  border-radius: 8px; padding: 24px 16px; text-align: center;
 }
+.rules-placeholder-icon { font-size: 32px; margin-bottom: 10px; }
+.rules-placeholder-title { font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.rules-placeholder-sub { font-size: 12px; color: var(--muted); font-weight: 300; opacity: 0.7; }
 
 /* GAME PAGE */
-.game-page-header {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
-}
+.game-page-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
 .game-page-icon { font-size: 44px; line-height: 1; }
-.game-page-title h2 {
-  font-family: 'Oswald', sans-serif; font-size: clamp(22px, 5vw, 36px);
-  font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1;
-}
+.game-page-title h2 { font-family: 'Oswald', sans-serif; font-size: clamp(22px, 5vw, 36px); font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1; }
 .game-page-title p { color: var(--accent-light); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; margin-top: 5px; font-family: 'Oswald', sans-serif; }
 
-.entry-match {
-  background: var(--surface2); border: 1px solid var(--border-subtle);
-  border-radius: 10px; padding: 16px; margin-bottom: 10px;
-}
+.entry-match { background: var(--surface2); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px; margin-bottom: 10px; }
 .entry-match-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .entry-ronde { font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-.entry-time {
-  font-family: 'Oswald', sans-serif; font-size: 11px; color: var(--accent-light);
-  background: var(--accent-glow); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px;
-}
+.entry-time { font-family: 'Oswald', sans-serif; font-size: 11px; color: var(--accent-light); background: var(--accent-glow); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; }
 .entry-teams { display: grid; grid-template-columns: 1fr auto auto auto 1fr; align-items: center; gap: 10px; }
 .entry-team { font-size: 14px; font-weight: 500; color: var(--text); }
 .entry-team.right { text-align: right; }
@@ -187,14 +182,41 @@ body::before {
 </head>
 <body>
 
+<!-- ══════════ HOME ══════════ -->
 <div id="page-home" class="container">
   <div class="hero">
     <div class="hero-badge">⚽ Scheidsrechter Portaal</div>
     <h1>Pupillenweekend <span>Altius</span></h1>
-    <p>Kies een spel om scores in te vullen</p>
+    <p>Spelletjestoernooi Vrijdag — Scores invoeren</p>
   </div>
+
+  <!-- CONTACT ORGANISATIE -->
+  <div class="panel">
+    <div class="panel-title gold">📞 Contact Organisatie</div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-role">Organisatie 1</div>
+        <div class="contact-name">Naam volgt</div>
+        <a class="contact-tel" href="tel:06xxxxxxxx">📱 06xxxxxxxx</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-role">Organisatie 2</div>
+        <div class="contact-name">Naam volgt</div>
+        <a class="contact-tel" href="tel:06xxxxxxxx">📱 06xxxxxxxx</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-role">Organisatie 3</div>
+        <div class="contact-name">Naam volgt</div>
+        <a class="contact-tel" href="tel:06xxxxxxxx">📱 06xxxxxxxx</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME BUTTONS -->
   <div class="section-label">Kies uw spel</div>
   <div class="games-grid" id="gamesGrid"></div>
+
+  <!-- LEADERBOARD -->
   <div class="panel" style="margin-top:28px">
     <div class="panel-title gold">Ranglijst</div>
     <table class="lb-table">
@@ -204,19 +226,50 @@ body::before {
       <tbody id="leaderboard"></tbody>
     </table>
   </div>
+
+  <!-- RESULTS READ-ONLY -->
   <div class="panel">
     <div class="panel-title">Alle Uitslagen</div>
     <div id="allResults"></div>
   </div>
 </div>
 
+<!-- ══════════ GAME PAGE ══════════ -->
 <div id="page-game" class="container">
   <button class="back-btn" onclick="goHome()">← Terug naar overzicht</button>
+
   <div class="game-page-header">
     <div class="game-page-icon" id="gp-icon"></div>
-    <div class="game-page-title"><h2 id="gp-name"></h2><p>Scores invoeren</p></div>
+    <div class="game-page-title">
+      <h2 id="gp-name"></h2>
+      <p>Scheidsrechter — Scores invoeren</p>
+    </div>
   </div>
-  <div id="gp-matches"></div>
+
+  <!-- SPELREGELS -->
+  <div class="panel">
+    <div class="panel-title green-c">📋 Spelregels & Scoren</div>
+    <div class="rules-placeholder">
+      <div class="rules-placeholder-icon">📝</div>
+      <div class="rules-placeholder-title">Speluitleg volgt</div>
+      <div class="rules-placeholder-sub">De spelregels en scoringswijze voor dit onderdeel worden hier nog toegevoegd.</div>
+    </div>
+  </div>
+
+  <!-- PLATTEGROND -->
+  <div class="panel">
+    <div class="panel-title">📍 Locatie op de plattegrond</div>
+    <div class="map-wrapper">
+      <img src="Plattegrond.jpg" alt="Plattegrond Sportpark Berestein">
+    </div>
+    <p class="map-caption">Sportpark Berestein — Voetbalvereniging Altius</p>
+  </div>
+
+  <!-- SCORE ENTRY -->
+  <div class="panel">
+    <div class="panel-title">Scores invoeren</div>
+    <div id="gp-matches"></div>
+  </div>
 </div>
 
 <script>
@@ -241,226 +294,155 @@ function buildTimes() {
 }
 const ROUND_TIMES = buildTimes();
 
-// ── SCHEDULE GENERATION ──────────────────────────────
-// 16 teams, 8 rounds, 8 matches per round.
-// Each team plays exactly once per round, exactly once per game,
-// and never meets the same opponent twice.
-//
-// We use the standard round-robin circle method to generate pairings,
-// then assign games so each team gets each game exactly once.
-//
-// Pairing in round r (0-indexed): fix team 0, rotate the rest.
-// This gives each team a unique opponent in each round — guaranteed
-// by the circle algorithm for even N.
-//
-// Game assignment: for each match in round r, the two teams both
-// need to be assigned game r (so each team plays game r in round r+1).
-// But that only works if we rotate WHICH game each team plays.
-//
-// Solution: assign game index to each team-slot so that:
-//   team at position p in round r plays game (p + r) % 8
-// where p is the "slot pair index" (0-7).
-// This ensures every team cycles through all 8 games exactly once.
-
 function generateRounds() {
-  const N = 16; // teams
-  const R = 8;  // rounds = N/2
-  // team indices 0..15
-  const ids = Array.from({length: N}, (_,i) => i);
-  const fixed = ids[0];
-  let rot = ids.slice(1); // 15 elements that rotate
-
+  const N=16, R=8;
+  const ids = Array.from({length:N},(_,i)=>i);
+  const fixed = ids[0]; let rot = ids.slice(1);
   const rounds = [];
-
-  for (let r = 0; r < R; r++) {
-    const circle = [fixed, ...rot]; // length 16
-    const matches = [];
-
-    for (let slot = 0; slot < R; slot++) {
-      const teamA = circle[slot];
-      const teamB = circle[N - 1 - slot];
-      // Assign game: rotate by slot + r so each team sees each game once
-      const gameIdx = (slot + r) % R;
-      matches.push({
-        a: teamA,
-        b: teamB,
-        gameIdx,
-        sa: null,
-        sb: null
-      });
+  for (let r=0;r<R;r++) {
+    const circle = [fixed,...rot], matches=[];
+    for (let slot=0;slot<R;slot++) {
+      matches.push({ a:circle[slot], b:circle[N-1-slot], gameIdx:(slot+r)%R, sa:null, sb:null });
     }
-
-    rounds.push({ round: r + 1, matches });
-    // rotate: move last element of rot to front
+    rounds.push({round:r+1, matches});
     rot.unshift(rot.pop());
   }
-
-  // Validate: check each team plays each game exactly once
-  // (kept as comment for verification, not needed at runtime)
-  // const teamGames = Array.from({length:16},()=>new Set());
-  // rounds.forEach(r=>r.matches.forEach(m=>{
-  //   teamGames[m.a].add(m.gameIdx); teamGames[m.b].add(m.gameIdx);
-  // }));
-  // teamGames.forEach((s,i)=>{ if(s.size!==8) console.error('Team',i,'plays',s.size,'games'); });
-
   return rounds;
 }
 
 const state = {
-  players: TEAMS.map((t,i) => ({
-    id: i, name: t[0], flag: t[1],
-    played:0, w:0, d:0, l:0, score:0, points:0
-  })),
+  players: TEAMS.map((t,i)=>({ id:i, name:t[0], flag:t[1], played:0, w:0, d:0, l:0, score:0, points:0 })),
   rounds: generateRounds()
 };
 
 function player(id) { return state.players[id]; }
 
 function recompute() {
-  state.players.forEach(p => { p.played=p.w=p.d=p.l=p.score=p.points=0; });
-  state.rounds.forEach(r => r.matches.forEach(m => {
-    if (m.sa !== null && m.sb !== null) {
-      const a = player(m.a), b = player(m.b);
-      a.played++; b.played++; a.score += m.sa; b.score += m.sb;
-      if      (m.sa > m.sb) { a.w++; b.l++; a.points += 3; }
-      else if (m.sb > m.sa) { b.w++; a.l++; b.points += 3; }
-      else                  { a.d++; b.d++; a.points++; b.points++; }
+  state.players.forEach(p=>{ p.played=p.w=p.d=p.l=p.score=p.points=0; });
+  state.rounds.forEach(r=>r.matches.forEach(m=>{
+    if (m.sa!==null&&m.sb!==null) {
+      const a=player(m.a),b=player(m.b);
+      a.played++;b.played++;a.score+=m.sa;b.score+=m.sb;
+      if(m.sa>m.sb){a.w++;b.l++;a.points+=3;}
+      else if(m.sb>m.sa){b.w++;a.l++;b.points+=3;}
+      else{a.d++;b.d++;a.points++;b.points++;}
     }
   }));
 }
 
 function renderLeaderboard() {
-  const tb = document.getElementById('leaderboard');
-  tb.innerHTML = '';
-  [...state.players]
-    .sort((a,b) => b.points - a.points || b.score - a.score)
-    .forEach((p,i) => {
-      tb.innerHTML += `<tr>
-        <td class="lb-rank">${i+1}</td>
-        <td>${p.flag} ${p.name}</td>
-        <td class="lb-num">${p.played}</td><td class="lb-num">${p.w}</td>
-        <td class="lb-num">${p.d}</td><td class="lb-num">${p.l}</td>
-        <td class="lb-num">${p.score}</td>
-        <td class="lb-points">${p.points}</td>
-      </tr>`;
-    });
+  const tb=document.getElementById('leaderboard');
+  tb.innerHTML='';
+  [...state.players].sort((a,b)=>b.points-a.points||b.score-a.score).forEach((p,i)=>{
+    tb.innerHTML+=`<tr>
+      <td class="lb-rank">${i+1}</td><td>${p.flag} ${p.name}</td>
+      <td class="lb-num">${p.played}</td><td class="lb-num">${p.w}</td>
+      <td class="lb-num">${p.d}</td><td class="lb-num">${p.l}</td>
+      <td class="lb-num">${p.score}</td><td class="lb-points">${p.points}</td>
+    </tr>`;
+  });
 }
 
 function renderResults() {
-  const c = document.getElementById('allResults');
-  c.innerHTML = '';
-  state.rounds.forEach(r => {
-    const block = document.createElement('div');
-    block.className = 'results-round';
-    block.innerHTML = `<div class="results-round-header">Ronde ${r.round} <span class="r-time">${ROUND_TIMES[r.round]}</span></div>`;
-    r.matches.forEach(m => {
-      const a = player(m.a), b = player(m.b);
-      const scoreHTML = (m.sa !== null && m.sb !== null)
-        ? `<div class="result-score">${m.sa} – ${m.sb}</div>`
-        : `<div class="result-score pending">vs</div>`;
-      block.innerHTML += `
-        <div class="result-row">
-          <div class="result-team">${a.flag} ${a.name}</div>
-          ${scoreHTML}
-          <div class="result-team right">${b.flag} ${b.name}</div>
-          <div class="result-game-tag">${GAMES[m.gameIdx]}</div>
-        </div>`;
+  const c=document.getElementById('allResults');
+  c.innerHTML='';
+  state.rounds.forEach(r=>{
+    const block=document.createElement('div');
+    block.className='results-round';
+    block.innerHTML=`<div class="results-round-header">Ronde ${r.round} <span class="r-time">${ROUND_TIMES[r.round]}</span></div>`;
+    r.matches.forEach(m=>{
+      const a=player(m.a),b=player(m.b);
+      const sc=(m.sa!==null&&m.sb!==null)
+        ?`<div class="result-score">${m.sa} – ${m.sb}</div>`
+        :`<div class="result-score pending">vs</div>`;
+      block.innerHTML+=`<div class="result-row">
+        <div class="result-team">${a.flag} ${a.name}</div>${sc}
+        <div class="result-team right">${b.flag} ${b.name}</div>
+        <div class="result-game-tag">${GAMES[m.gameIdx]}</div>
+      </div>`;
     });
     c.appendChild(block);
   });
 }
 
-function countFilled(gameIdx) {
-  let filled = 0, total = 0;
-  state.rounds.forEach(r => r.matches.forEach(m => {
-    if (m.gameIdx === gameIdx) { total++; if (m.sa !== null && m.sb !== null) filled++; }
-  }));
-  return { filled, total };
+function countFilled(gi) {
+  let filled=0,total=0;
+  state.rounds.forEach(r=>r.matches.forEach(m=>{ if(m.gameIdx===gi){total++;if(m.sa!==null&&m.sb!==null)filled++;} }));
+  return {filled,total};
 }
 
 function renderGameButtons() {
-  const grid = document.getElementById('gamesGrid');
-  grid.innerHTML = '';
-  GAMES.forEach((game, gi) => {
-    const { filled, total } = countFilled(gi);
-    const done = filled === total;
-    const btn = document.createElement('button');
-    btn.className = 'game-btn';
-    btn.innerHTML = `
+  const grid=document.getElementById('gamesGrid');
+  grid.innerHTML='';
+  GAMES.forEach((game,gi)=>{
+    const {filled,total}=countFilled(gi);
+    const done=filled===total;
+    const btn=document.createElement('button');
+    btn.className='game-btn';
+    btn.innerHTML=`
       <div class="game-icon">${GAME_ICONS[gi]}</div>
       <div class="game-btn-name">${game}</div>
-      <div class="game-progress ${done ? 'done' : ''}">${filled}/${total} ingevuld</div>`;
-    btn.onclick = () => showGame(gi);
+      <div class="game-progress ${done?'done':''}">${filled}/${total} ingevuld</div>`;
+    btn.onclick=()=>showGame(gi);
     grid.appendChild(btn);
   });
 }
 
 function showGame(gameIdx) {
-  document.getElementById('gp-icon').textContent = GAME_ICONS[gameIdx];
-  document.getElementById('gp-name').textContent = GAMES[gameIdx];
+  document.getElementById('gp-icon').textContent=GAME_ICONS[gameIdx];
+  document.getElementById('gp-name').textContent=GAMES[gameIdx];
 
-  const c = document.getElementById('gp-matches');
-  c.innerHTML = '';
-
-  state.rounds.forEach(r => {
-    r.matches.forEach(m => {
-      if (m.gameIdx !== gameIdx) return;
-      const a = player(m.a), b = player(m.b);
-      const card = document.createElement('div');
-      card.className = 'entry-match';
-      card.innerHTML = `
+  const c=document.getElementById('gp-matches');
+  c.innerHTML='';
+  state.rounds.forEach(r=>{
+    r.matches.forEach(m=>{
+      if(m.gameIdx!==gameIdx) return;
+      const a=player(m.a),b=player(m.b);
+      const card=document.createElement('div');
+      card.className='entry-match';
+      card.innerHTML=`
         <div class="entry-match-meta">
           <div class="entry-ronde">Ronde ${r.round}</div>
           <div class="entry-time">${ROUND_TIMES[r.round]}</div>
         </div>
         <div class="entry-teams">
           <div class="entry-team">${a.flag} ${a.name}</div>
-          <input class="score-input" type="number" min="0" placeholder="—" value="${m.sa !== null ? m.sa : ''}">
+          <input class="score-input" type="number" min="0" placeholder="—" value="${m.sa!==null?m.sa:''}">
           <div class="entry-sep">-</div>
-          <input class="score-input" type="number" min="0" placeholder="—" value="${m.sb !== null ? m.sb : ''}">
+          <input class="score-input" type="number" min="0" placeholder="—" value="${m.sb!==null?m.sb:''}">
           <div class="entry-team right">${b.flag} ${b.name}</div>
         </div>
         <div class="entry-saved">✓ Opgeslagen</div>`;
-
-      const inputs = card.querySelectorAll('input');
-      const savedEl = card.querySelector('.entry-saved');
-      function save() {
-        const va = inputs[0].value, vb = inputs[1].value;
-        if (va !== '' && vb !== '') {
-          m.sa = +va; m.sb = +vb;
+      const inputs=card.querySelectorAll('input');
+      const savedEl=card.querySelector('.entry-saved');
+      function save(){
+        const va=inputs[0].value,vb=inputs[1].value;
+        if(va!==''&&vb!==''){
+          m.sa=+va;m.sb=+vb;
           savedEl.classList.add('show');
-          setTimeout(() => savedEl.classList.remove('show'), 1800);
-          recompute();
-          renderGameButtons();
+          setTimeout(()=>savedEl.classList.remove('show'),1800);
+          recompute();renderGameButtons();
         }
       }
-      inputs[0].addEventListener('change', save);
-      inputs[1].addEventListener('change', save);
+      inputs[0].addEventListener('change',save);
+      inputs[1].addEventListener('change',save);
       c.appendChild(card);
     });
   });
 
-  document.getElementById('page-home').style.display = 'none';
-  const gp = document.getElementById('page-game');
-  gp.classList.add('visible');
-  window.scrollTo(0, 0);
+  document.getElementById('page-home').style.display='none';
+  document.getElementById('page-game').classList.add('visible');
+  window.scrollTo(0,0);
 }
 
 function goHome() {
   document.getElementById('page-game').classList.remove('visible');
-  document.getElementById('page-home').style.display = 'block';
-  renderHome();
-  window.scrollTo(0, 0);
+  document.getElementById('page-home').style.display='block';
+  recompute();renderGameButtons();renderLeaderboard();renderResults();
+  window.scrollTo(0,0);
 }
 
-function renderHome() {
-  recompute();
-  renderGameButtons();
-  renderLeaderboard();
-  renderResults();
-}
-
-renderHome();
+recompute();renderGameButtons();renderLeaderboard();renderResults();
 </script>
 </body>
 </html>
