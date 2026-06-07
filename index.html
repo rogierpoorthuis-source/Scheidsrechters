@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -42,6 +41,9 @@ body::before {
 .hero h1 { font-family: 'Oswald', sans-serif; font-size: clamp(26px, 6vw, 52px); font-weight: 700; line-height: 1.08; color: #fff; text-transform: uppercase; letter-spacing: -0.5px; }
 .hero h1 span { color: var(--accent); }
 .hero p { margin-top: 10px; color: var(--muted); font-size: 14px; font-weight: 300; }
+.cloud-pill { display: inline-block; margin-top: 12px; font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-subtle); color: var(--muted); }
+.cloud-pill.live { color: var(--green); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.06); }
+.cloud-pill.offline { color: var(--accent2); border-color: rgba(245,158,11,0.3); }
 
 /* PANEL */
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
@@ -89,7 +91,7 @@ body::before {
 
 /* GAME BUTTONS */
 .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-@media (min-width: 500px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 500px) { .games-grid { grid-template-columns: repeat(3, 1fr); } }
 .game-btn {
   background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
   padding: 16px 10px; cursor: pointer; display: flex; flex-direction: column;
@@ -109,17 +111,6 @@ body::before {
 .game-progress { font-size: 11px; color: var(--muted); font-weight: 300; }
 .game-progress.done { color: var(--green); }
 
-/* LEADERBOARD */
-.lb-table { width: 100%; border-collapse: collapse; }
-.lb-table th { font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
-.lb-table td { padding: 9px 8px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-.lb-table tr:last-child td { border-bottom: none; }
-.lb-rank { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--muted); width: 28px; }
-.lb-table tr:first-child td { color: var(--accent-light); }
-.lb-table tr:first-child .lb-rank { color: var(--accent); }
-.lb-points { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--accent-light); text-align: right; }
-.lb-num { color: var(--muted); font-size: 12px; text-align: center; }
-
 /* RESULTS */
 .results-round { margin-bottom: 14px; }
 .results-round-header { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
@@ -130,6 +121,7 @@ body::before {
 .result-score { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; color: var(--accent-light); min-width: 52px; text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: 5px; padding: 4px 6px; }
 .result-score.pending { color: var(--muted); font-size: 12px; font-weight: 400; }
 .result-game-tag { font-size: 10px; color: var(--muted); white-space: nowrap; background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 3px; padding: 2px 6px; }
+.results-pauze { text-align: center; font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 8px; margin-bottom: 14px; border: 1px dashed var(--border-subtle); border-radius: 6px; opacity: 0.7; }
 
 /* MAP */
 .map-wrapper { width: 100%; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,106,0,0.2); }
@@ -144,6 +136,14 @@ body::before {
 .rules-placeholder-icon { font-size: 32px; margin-bottom: 10px; }
 .rules-placeholder-title { font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .rules-placeholder-sub { font-size: 12px; color: var(--muted); font-weight: 300; opacity: 0.7; }
+/* RULES CONTENT */
+.rules-text { font-size: 14px; line-height: 1.6; color: var(--text); margin-bottom: 12px; font-weight: 300; }
+.rules-points { background: var(--surface2); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; }
+.rules-points-title { font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.rules-point { font-size: 13px; color: var(--text); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+.rules-point::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+.rules-score { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.25); border-radius: 8px; padding: 14px; font-size: 14px; line-height: 1.5; color: var(--text); margin-top: 4px; }
+.rules-score-label { display: block; font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
 
 /* GAME PAGE */
 .game-page-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
@@ -151,30 +151,111 @@ body::before {
 .game-page-title h2 { font-family: 'Oswald', sans-serif; font-size: clamp(22px, 5vw, 36px); font-weight: 700; text-transform: uppercase; color: #fff; line-height: 1; }
 .game-page-title p { color: var(--accent-light); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; margin-top: 5px; font-family: 'Oswald', sans-serif; }
 
+/* MATCH CARD (clickable) */
 .entry-match { background: var(--surface2); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px; margin-bottom: 10px; }
+.entry-match.clickable { width: 100%; text-align: left; cursor: pointer; font-family: inherit; color: inherit; transition: all 0.15s ease; display: block; }
+.entry-match.clickable:active { transform: scale(0.99); border-color: var(--accent); }
+@media (hover:hover) { .entry-match.clickable:hover { border-color: rgba(255,106,0,0.4); } }
+.entry-match.locked { border-color: rgba(34,197,94,0.22); }
+.entry-match.locked.clickable:active { border-color: var(--green); }
 .entry-match-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .entry-ronde { font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
 .entry-time { font-family: 'Oswald', sans-serif; font-size: 11px; color: var(--accent-light); background: var(--accent-glow); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; }
-.entry-teams { display: grid; grid-template-columns: 1fr auto auto auto 1fr; align-items: center; gap: 10px; }
+.entry-teams-view { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; }
 .entry-team { font-size: 14px; font-weight: 500; color: var(--text); }
 .entry-team.right { text-align: right; }
-.entry-sep { font-family: 'Oswald', sans-serif; font-size: 18px; color: var(--muted); text-align: center; width: 16px; }
-.score-input {
-  width: 60px; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 7px; color: #fff; font-family: 'Oswald', sans-serif;
-  font-size: 22px; font-weight: 600; text-align: center; padding: 8px 4px;
-  -moz-appearance: textfield; transition: border-color 0.15s;
+.entry-scorebox {
+  font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700;
+  color: var(--accent-light); min-width: 64px; text-align: center;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 5px 6px;
 }
-.score-input:focus { outline: none; border-color: var(--accent); background: rgba(255,106,0,0.05); }
-.score-input::-webkit-outer-spin-button, .score-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-.entry-saved { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; font-size: 12px; color: var(--green); font-weight: 500; opacity: 0; transition: opacity 0.3s; }
-.entry-saved.show { opacity: 1; }
+.entry-scorebox.empty { color: var(--muted); font-size: 14px; font-weight: 400; }
+.entry-match.locked .entry-scorebox { color: var(--green); border-color: rgba(34,197,94,0.3); }
+.entry-status { text-align: center; font-size: 11px; margin-top: 10px; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 6px; }
+.entry-match.locked .entry-status { color: var(--green); }
 
 @media (max-width: 480px) {
-  .entry-teams { gap: 6px; }
-  .score-input { width: 52px; font-size: 18px; }
   .entry-team { font-size: 12px; }
 }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(4,7,12,0.82);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px;
+}
+.modal-overlay.open { display: flex; animation: fadeIn 0.18s ease; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 24px 20px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.modal-round { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-light); text-align: center; margin-bottom: 20px; }
+.m-orgnote {
+  display: none; text-align: center; font-size: 11px; color: var(--accent2);
+  font-family: 'Oswald', sans-serif; letter-spacing: 1px; text-transform: uppercase;
+  background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25);
+  border-radius: 6px; padding: 8px; margin-bottom: 16px;
+}
+.m-team { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; color: #fff; text-align: center; margin-bottom: 8px; }
+.modal-score {
+  display: block; width: 100%; max-width: 150px; margin: 0 auto 16px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  color: #fff; font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 700;
+  text-align: center; padding: 10px; -moz-appearance: textfield;
+}
+.modal-score:focus { outline: none; border-color: var(--accent); background: rgba(255,106,0,0.06); }
+.modal-score::-webkit-outer-spin-button, .modal-score::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.m-vs { text-align: center; color: var(--muted); font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 3px; margin-bottom: 14px; }
+.m-err { display:none; text-align:center; color:#ff5d5d; font-size:12px; margin-bottom:12px; }
+.m-err.show { display:block; }
+
+.m-confirm-big { text-align: center; font-size: 16px; color: var(--text); margin: 6px 0 4px; line-height: 1.6; }
+.m-confirm-big b { font-family: 'Oswald', sans-serif; font-size: 26px; color: var(--accent-light); display: inline-block; margin: 0 6px; vertical-align: middle; }
+.m-confirm-q { text-align: center; color: var(--muted); font-size: 13px; margin: 12px 0 20px; }
+
+.m-locked-icon { text-align: center; font-size: 36px; margin-bottom: 10px; }
+.m-locked-title { text-align: center; font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+.m-locked-score { text-align: center; font-family: 'Oswald', sans-serif; font-size: 30px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+.m-locked-sub { text-align: center; color: var(--muted); font-size: 12px; margin-bottom: 20px; line-height: 1.5; }
+
+.modal-actions { display: flex; gap: 10px; }
+.m-btn {
+  flex: 1; border-radius: 10px; padding: 14px; font-family: 'Oswald', sans-serif;
+  font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); transition: all 0.15s;
+}
+.m-btn.ghost { background: transparent; color: var(--muted); }
+.m-btn.ghost:active { border-color: var(--accent); color: var(--accent); }
+.m-btn.solid { background: var(--accent); border-color: var(--accent); color: #fff; }
+.m-btn.solid:active { background: var(--accent-light); }
+.m-btn.confirm { background: var(--green); border-color: var(--green); color: #06210f; }
+.m-btn.confirm:active { filter: brightness(1.1); }
+.modal-hint { text-align:center; color:var(--muted); font-size:13px; line-height:1.5; margin-bottom:18px; }
+
+/* ORG BANNER + FAB */
+.org-banner {
+  display: none; position: sticky; top: 0; z-index: 50;
+  align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+  background: linear-gradient(90deg, var(--accent-glow), rgba(255,106,0,0.04));
+  border-bottom: 1px solid var(--border); color: var(--accent-light);
+  font-size: 12px; font-family: 'Oswald', sans-serif; letter-spacing: 1px;
+  text-transform: uppercase; padding: 11px 16px; text-align: center;
+}
+.org-banner.show { display: flex; }
+.org-banner button {
+  background: var(--accent); border: none; color: #fff; border-radius: 6px;
+  padding: 6px 14px; font-family: 'Oswald', sans-serif; font-size: 11px;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+}
+.org-fab {
+  position: fixed; bottom: 18px; right: 18px; z-index: 60;
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--accent-light); font-size: 20px; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: all 0.18s;
+}
+.org-fab:active { transform: scale(0.92); }
+body.org-active .org-fab { background: var(--accent); border-color: var(--accent); }
 
 #page-game { display: none; }
 @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
@@ -183,12 +264,19 @@ body::before {
 </head>
 <body>
 
+<!-- ORG BANNER -->
+<div id="orgBanner" class="org-banner">
+  🔓 Organisatiemodus actief — je kunt vastgezette uitslagen aanpassen
+  <button onclick="exitOrg()">Afsluiten</button>
+</div>
+
 <!-- ══════════ HOME ══════════ -->
 <div id="page-home" class="container">
   <div class="hero">
     <div class="hero-badge">⚽ Scheidsrechter Portaal</div>
     <h1>Pupillenweekend <span>Altius</span></h1>
     <p>Spelletjestoernooi Vrijdag — Scores invoeren</p>
+    <div id="cloudStatus" class="cloud-pill offline">📴 Lokaal — cloud nog niet ingesteld</div>
   </div>
 
   <!-- CONTACT ORGANISATIE -->
@@ -217,19 +305,8 @@ body::before {
   <div class="section-label">Kies uw spel</div>
   <div class="games-grid" id="gamesGrid"></div>
 
-  <!-- LEADERBOARD -->
-  <div class="panel" style="margin-top:28px">
-    <div class="panel-title gold">Ranglijst</div>
-    <table class="lb-table">
-      <thead>
-        <tr><th>#</th><th>Team</th><th class="lb-num">G</th><th class="lb-num">W</th><th class="lb-num">D</th><th class="lb-num">V</th><th class="lb-num">Score</th><th style="text-align:right">P</th></tr>
-      </thead>
-      <tbody id="leaderboard"></tbody>
-    </table>
-  </div>
-
   <!-- RESULTS READ-ONLY -->
-  <div class="panel">
+  <div class="panel" style="margin-top:28px">
     <div class="panel-title">Alle Uitslagen</div>
     <div id="allResults"></div>
   </div>
@@ -243,18 +320,14 @@ body::before {
     <div class="game-page-icon" id="gp-icon"></div>
     <div class="game-page-title">
       <h2 id="gp-name"></h2>
-      <p>Scheidsrechter — Scores invoeren</p>
+      <p id="gp-sub">Scheidsrechter — Scores invoeren</p>
     </div>
   </div>
 
   <!-- SPELREGELS -->
   <div class="panel">
     <div class="panel-title green-c">📋 Spelregels & Scoren</div>
-    <div class="rules-placeholder">
-      <div class="rules-placeholder-icon">📝</div>
-      <div class="rules-placeholder-title">Speluitleg volgt</div>
-      <div class="rules-placeholder-sub">De spelregels en scoringswijze voor dit onderdeel worden hier nog toegevoegd.</div>
-    </div>
+    <div id="gp-rules"></div>
   </div>
 
   <!-- PLATTEGROND -->
@@ -273,51 +346,301 @@ body::before {
   </div>
 </div>
 
+<!-- ══════════ SCORE ENTRY MODAL ══════════ -->
+<div id="entryModal" class="modal-overlay" onclick="if(event.target===this)closeEntry()">
+  <div class="modal">
+    <div class="modal-round" id="m-round"></div>
+
+    <!-- INPUT VIEW -->
+    <div id="mv-input">
+      <div class="m-orgnote" id="m-orgnote">Organisatiemodus — je past een vastgezette uitslag aan</div>
+      <div class="m-team" id="m-team-a"></div>
+      <input class="modal-score" id="m-sa" type="number" min="0" inputmode="numeric" placeholder="—">
+      <div class="m-vs">tegen</div>
+      <div class="m-team" id="m-team-b"></div>
+      <input class="modal-score" id="m-sb" type="number" min="0" inputmode="numeric" placeholder="—">
+      <div class="m-err" id="m-err">Vul beide scores in.</div>
+      <div class="modal-actions">
+        <button class="m-btn ghost" onclick="closeEntry()">Annuleren</button>
+        <button class="m-btn solid" onclick="entryOK()">OK</button>
+      </div>
+    </div>
+
+    <!-- CONFIRM VIEW -->
+    <div id="mv-confirm" style="display:none">
+      <div class="m-confirm-big" id="m-confirm-text"></div>
+      <div class="m-confirm-q">Klopt deze uitslag?</div>
+      <div class="modal-actions">
+        <button class="m-btn ghost" onclick="entryBack()">Aanpassen</button>
+        <button class="m-btn confirm" onclick="entryConfirm()">Bevestigen</button>
+      </div>
+    </div>
+
+    <!-- LOCKED VIEW (referee) -->
+    <div id="mv-locked" style="display:none">
+      <div class="m-locked-icon">🔒</div>
+      <div class="m-locked-title">Uitslag vastgezet</div>
+      <div class="m-locked-score" id="m-locked-score"></div>
+      <div class="m-locked-sub">Deze uitslag is bevestigd en kan niet meer worden aangepast.<br>Aanpassen kan alleen via de organisatie.</div>
+      <div class="modal-actions">
+        <button class="m-btn ghost" onclick="closeEntry()">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PIN MODAL ══════════ -->
+<div id="pinModal" class="modal-overlay" onclick="if(event.target===this)closePin()">
+  <div class="modal">
+    <div class="modal-round">🔐 Organisatiemodus</div>
+    <p class="modal-hint">Voer de pincode in om vastgezette uitslagen te kunnen aanpassen.</p>
+    <input class="modal-score" id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+    <div class="m-err" id="pin-err">Onjuiste pincode.</div>
+    <div class="modal-actions">
+      <button class="m-btn ghost" onclick="closePin()">Annuleren</button>
+      <button class="m-btn solid" onclick="checkPin()">Ontgrendel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ORG FAB -->
+<button id="orgFab" class="org-fab" onclick="orgFabClick()" title="Organisatiemodus">🔐</button>
+
 <script>
-const GAME_ICONS = ['⚽','🎲','🏃','💨','🎯','🏃','🏓','🏟️'];
+/* ═══════════ CONFIG ═══════════ */
+// ⚠️ WIJZIG DEZE PINCODE naar iets eigen vóór gebruik.
+const ORG_PIN = "1234";
+const STORAGE_KEY = "altius_pupillenweekend_v2";
+
+/* ═══════════ SPELLEN (9 stations) ═══════════ */
+const GAME_ICONS = ['🎯','🌍','🥊','🧤','🏃','💨','⚽','🚒','📸'];
 const GAMES = [
-  "Penalty schieten","Dobbelsteen schieten","Stormbaan",
-  "Hoe hard schiet ik?","Voetbaldart","Lopen op een bal",
-  "Levend Tafelvoetbal","IPS Back to Base"
-];
-const TEAMS = [
-  ['Japan','🇯🇵'],['Nederland','🇳🇱'],['België','🇧🇪'],['Duitsland','🇩🇪'],
-  ['Italië','🇮🇹'],['Verenigde Staten','🇺🇸'],['Mexico','🇲🇽'],['Argentinië','🇦🇷'],
-  ['Marokko','🇲🇦'],['Chili','🇨🇱'],['Brazilië','🇧🇷'],['Frankrijk','🇫🇷'],
-  ['Spanje','🇪🇸'],['Portugal','🇵🇹'],['Zweden','🇸🇪'],['Noorwegen','🇳🇴']
+  "Gaten schieten","Wereldbal parcours","Kussengevecht","Beat the keeper",
+  "Stormbaan estafette","Dribbel + snelheid","Pannavoetbal","Brandweervoetbal","Fotomoment"
 ];
 
-function fmt(m) { return `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`; }
-function buildTimes() {
-  const t = {}; let c = 19*60;
-  for (let r=1;r<=8;r++) { t[r]=`${fmt(c)}–${fmt(c+15)}`; c+=15; if(r===3||r===6) c+=20; }
-  return t;
-}
-const ROUND_TIMES = buildTimes();
-
-function generateRounds() {
-  const N=16, R=8;
-  const ids = Array.from({length:N},(_,i)=>i);
-  const fixed = ids[0]; let rot = ids.slice(1);
-  const rounds = [];
-  for (let r=0;r<R;r++) {
-    const circle = [fixed,...rot], matches=[];
-    for (let slot=0;slot<R;slot++) {
-      matches.push({ a:circle[slot], b:circle[N-1-slot], gameIdx:(slot+r)%R, sa:null, sb:null });
-    }
-    rounds.push({round:r+1, matches});
-    rot.unshift(rot.pop());
+/* ═══════════ SPELREGELS (zelfde volgorde als GAMES) ═══════════ */
+const RULES = [
+  { // 0 Gaten schieten
+    uitleg: [
+      "De spelers van beide teams schieten om en om één keer op het opblaasbare doel: eerst een speler van het ene team, dan een speler van het andere, tot iedereen is geweest.",
+      "Gaat de bal door een gat, dan telt de bijbehorende score mee. Is iedereen geweest, begin dan opnieuw bij de eerste speler — net zolang tot de tijd om is."
+    ],
+    scoren: "Voer per team de totaalscore in (alle behaalde punten bij elkaar opgeteld)."
+  },
+  { // 1 Wereldbal parcours
+    uitleg: [
+      "Eén speler neemt plaats op de bal; het hele team begeleidt de bal over het parcours. Het parcours loopt over de breedte van het veld — één keer heen en weer is een ronde.",
+      "Na elke ronde gaat een andere deelnemer op de bal. Herhalen tot de tijd om is. Staat het gelijk en ligt een ploeg voor in de laatste, onafgemaakte ronde, dan krijgen zij dat punt ook."
+    ],
+    scoren: "Voer per team het aantal voltooide rondes in."
+  },
+  { // 2 Kussengevecht
+    uitleg: [
+      "Eén speler van elk team (gematcht op leeftijd) staat op de balk. Met de opblaaskussens probeer je elkaar van de balk te krijgen; de winnaar van een duel krijgt een punt.",
+      "Elke minuut start een nieuw duel. Alle spelers én bondscoaches komen aan de beurt, maximaal één keer per ronde. Daarna mogen de kids vrij doorvechten, maar dat telt niet mee voor de score."
+    ],
+    scoren: "Voer per team het totaal aantal gewonnen duels in."
+  },
+  { // 3 Beat the keeper
+    uitleg: [
+      "Alle teamleden plus de bondscoaches nemen één penalty. Afstand: O8/O9 vanaf 9 meter, O10 t/m O13 vanaf de strafschopstip (11 meter).",
+      "Bestaat een team uit één pupil minder, dan schiet één pupil een tweede keer. Zorg dat er per team precies 13 keer op doel wordt geschoten."
+    ],
+    scoren: "Voer per team het aantal raak geschoten penalty's in."
+  },
+  { // 4 Stormbaan estafette
+    uitleg: [
+      "Na het startsignaal gaat het eerste teamlid over de stormbaan en rent via de zijkant terug naar het team. Na een high-five mag het volgende teamlid starten.",
+      "Dit herhaal je tot de tijd om is. Het team dat de baan het vaakst heeft gehaald, wint."
+    ],
+    scoren: "Winnaar krijgt 1 punt: vul 1–0 in voor het winnende team."
+  },
+  { // 5 Dribbel + snelheid
+    uitleg: [
+      "Elk teamlid legt het parcours af en schiet daarna zo hard mogelijk op doel; de snelheidsmeter meet de snelheid. Álle snelheden van álle teamleden tellen mee.",
+      "Bij genoeg tijd mogen meerdere pogingen — dan telt het hoogste resultaat per pupil. Is iedereen geweest, begin dan opnieuw bij de eerste, tot de tijd om is."
+    ],
+    scoren: "Voer per team de totaalscore in (alle snelheden bij elkaar opgeteld)."
+  },
+  { // 6 Pannavoetbal
+    uitleg: [
+      "Twee teams van 10 spelers, elk verdeeld in 5 duo's. Op 3 veldjes speelt steeds 2 tegen 2 — 6 spelers per team actief, de rest wacht kort en rouleert door. Stel elk duo samen met een jongere (O10 of jonger) en een oudere (O11 of hoger) speler.",
+      "Speel 4 rondes van 3 minuten. De winnaar blijft staan; de verliezer wisselt met een rustend duo van hetzelfde team. Bij gelijkspel wisselen beide duo's."
+    ],
+    punten: ["Doelpunt = 1 punt", "Panna = 3 punten", "Panna gevolgd door doelpunt binnen 10 sec = 5 punten"],
+    scoren: "Tel alle punten per team bij elkaar op en voer dat in."
+  },
+  { // 7 Brandweervoetbal
+    uitleg: [
+      "Twee teams strijden op een kwart veld met pupillengoals; gewone voetbalregels — wie scoort de meeste doelpunten?",
+      "Met dit verschil: de brandweer schiet de bal uit de goal én maakt de pupillen flink nat."
+    ],
+    scoren: "Voer de eindscore (doelpunten) per team in."
+  },
+  { // 8 Fotomoment
+    uitleg: [
+      "Ieder team gaat met de bondscoaches op de foto voor het green screen.",
+      "Bonuspunten verdien je door de touwtrekwedstrijd te winnen (plus een bonusfoto)."
+    ],
+    scoren: "Vul 1–0 in voor het team dat de touwtrekwedstrijd wint."
   }
-  return rounds;
+];
+
+/* ═══════════ TEAMS (16) ═══════════ */
+const TEAMS = [
+  ['Brazilië','🇧🇷'],['Engeland','🏴󠁧󠁢󠁥󠁮󠁧󠁿'],['Argentinië','🇦🇷'],['Nederland','🇳🇱'],
+  ['Mexico','🇲🇽'],['Marokko','🇲🇦'],['Japan','🇯🇵'],['Curaçao','🇨🇼'],
+  ['Saoedi-Arabië','🇸🇦'],['Spanje','🇪🇸'],['Australië','🇦🇺'],['Portugal','🇵🇹'],
+  ['V.S.','🇺🇸'],['Frankrijk','🇫🇷'],['Duitsland','🇩🇪'],['Zweden','🇸🇪']
+];
+
+/* ═══════════ VAST SPEELSCHEMA ═══════════ */
+// Per ronde: tijd, eventuele pauze erna, en de wedstrijden per spel.
+// Eén spel staat elke ronde leeg (gewoon weglaten).
+const SCHEDULE = [
+  { round:1, time:"19:15 – 19:29", matches:{
+    "Gaten schieten":["Brazilië","Engeland"],
+    "Wereldbal parcours":["Argentinië","Nederland"],
+    "Kussengevecht":["Mexico","Marokko"],
+    "Beat the keeper":["Japan","Curaçao"],
+    "Stormbaan estafette":["Saoedi-Arabië","Spanje"],
+    "Dribbel + snelheid":["Australië","Portugal"],
+    "Brandweervoetbal":["V.S.","Frankrijk"],
+    "Fotomoment":["Duitsland","Zweden"]
+  }},
+  { round:2, time:"19:33 – 19:47", pauseAfter:"Pauze · 19:47 – 19:59", matches:{
+    "Gaten schieten":["Duitsland","Spanje"],
+    "Wereldbal parcours":["Engeland","Marokko"],
+    "Kussengevecht":["Japan","Argentinië"],
+    "Beat the keeper":["Nederland","Frankrijk"],
+    "Stormbaan estafette":["Australië","Brazilië"],
+    "Dribbel + snelheid":["V.S.","Mexico"],
+    "Pannavoetbal":["Portugal","Zweden"],
+    "Brandweervoetbal":["Saoedi-Arabië","Curaçao"]
+  }},
+  { round:3, time:"19:59 – 20:13", matches:{
+    "Gaten schieten":["Nederland","Australië"],
+    "Wereldbal parcours":["Portugal","Spanje"],
+    "Kussengevecht":["Engeland","Saoedi-Arabië"],
+    "Beat the keeper":["Argentinië","V.S."],
+    "Stormbaan estafette":["Zweden","Mexico"],
+    "Dribbel + snelheid":["Brazilië","Japan"],
+    "Pannavoetbal":["Duitsland","Curaçao"],
+    "Fotomoment":["Marokko","Frankrijk"]
+  }},
+  { round:4, time:"20:17 – 20:31", pauseAfter:"Pauze · 20:31 – 20:43", matches:{
+    "Gaten schieten":["Portugal","Frankrijk"],
+    "Wereldbal parcours":["V.S.","Japan"],
+    "Beat the keeper":["Zweden","Spanje"],
+    "Stormbaan estafette":["Curaçao","Engeland"],
+    "Dribbel + snelheid":["Duitsland","Nederland"],
+    "Pannavoetbal":["Saoedi-Arabië","Mexico"],
+    "Brandweervoetbal":["Australië","Marokko"],
+    "Fotomoment":["Brazilië","Argentinië"]
+  }},
+  { round:5, time:"20:43 – 20:57", matches:{
+    "Gaten schieten":["Saoedi-Arabië","V.S."],
+    "Kussengevecht":["Curaçao","Portugal"],
+    "Beat the keeper":["Engeland","Australië"],
+    "Stormbaan estafette":["Frankrijk","Argentinië"],
+    "Dribbel + snelheid":["Zweden","Marokko"],
+    "Pannavoetbal":["Spanje","Japan"],
+    "Brandweervoetbal":["Duitsland","Brazilië"],
+    "Fotomoment":["Nederland","Mexico"]
+  }},
+  { round:6, time:"21:01 – 21:15", pauseAfter:"Pauze · 21:15 – 21:27", matches:{
+    "Gaten schieten":["Curaçao","Zweden"],
+    "Wereldbal parcours":["Saoedi-Arabië","Duitsland"],
+    "Kussengevecht":["Frankrijk","Brazilië"],
+    "Beat the keeper":["Portugal","Mexico"],
+    "Stormbaan estafette":["Marokko","V.S."],
+    "Pannavoetbal":["Engeland","Argentinië"],
+    "Brandweervoetbal":["Nederland","Japan"],
+    "Fotomoment":["Australië","Spanje"]
+  }},
+  { round:7, time:"21:27 – 21:41", matches:{
+    "Gaten schieten":["Japan","Mexico"],
+    "Wereldbal parcours":["Frankrijk","Zweden"],
+    "Kussengevecht":["Australië","Duitsland"],
+    "Beat the keeper":["Saoedi-Arabië","Brazilië"],
+    "Dribbel + snelheid":["Engeland","Spanje"],
+    "Pannavoetbal":["Marokko","Nederland"],
+    "Brandweervoetbal":["Portugal","Argentinië"],
+    "Fotomoment":["Curaçao","V.S."]
+  }},
+  { round:8, time:"21:45 – 21:59", matches:{
+    "Gaten schieten":["Marokko","Argentinië"],
+    "Wereldbal parcours":["Australië","Curaçao"],
+    "Kussengevecht":["Zweden","Nederland"],
+    "Stormbaan estafette":["Duitsland","Japan"],
+    "Dribbel + snelheid":["Saoedi-Arabië","Frankrijk"],
+    "Pannavoetbal":["V.S.","Brazilië"],
+    "Brandweervoetbal":["Mexico","Spanje"],
+    "Fotomoment":["Portugal","Engeland"]
+  }},
+  { round:9, time:"22:03 – 22:17", matches:{
+    "Wereldbal parcours":["Mexico","Brazilië"],
+    "Kussengevecht":["Spanje","V.S."],
+    "Beat the keeper":["Duitsland","Marokko"],
+    "Stormbaan estafette":["Nederland","Portugal"],
+    "Dribbel + snelheid":["Argentinië","Curaçao"],
+    "Pannavoetbal":["Frankrijk","Australië"],
+    "Brandweervoetbal":["Zweden","Engeland"],
+    "Fotomoment":["Saoedi-Arabië","Japan"]
+  }}
+];
+
+/* ═══════════ INDEX MAPS + BUILD ═══════════ */
+const GAME_IDX = {}; GAMES.forEach((g,i)=>GAME_IDX[g]=i);
+const TEAM_IDX = {}; TEAMS.forEach((t,i)=>TEAM_IDX[t[0]]=i);
+
+function buildRounds() {
+  return SCHEDULE.map(rd => ({
+    round: rd.round,
+    time: rd.time,
+    pauseAfter: rd.pauseAfter || null,
+    matches: GAMES.map((g,gi) => {
+      const pair = rd.matches[g];
+      if (!pair) return null;
+      const a = TEAM_IDX[pair[0]], b = TEAM_IDX[pair[1]];
+      if (a===undefined || b===undefined) console.error('Onbekend team in schema, ronde '+rd.round+', '+g+':', pair);
+      return { a, b, gameIdx:gi, sa:null, sb:null, locked:false };
+    }).filter(Boolean)
+  }));
 }
 
 const state = {
   players: TEAMS.map((t,i)=>({ id:i, name:t[0], flag:t[1], played:0, w:0, d:0, l:0, score:0, points:0 })),
-  rounds: generateRounds()
+  rounds: buildRounds()
 };
+
+let orgMode = false;
+let curGame = null;   // index van geopend spel
+let cur = null;       // {ri, mi} van wedstrijd in de modal
 
 function player(id) { return state.players[id]; }
 
+/* ═══════════ PERSISTENTIE (per apparaat) ═══════════ */
+function saveState() {
+  try {
+    const data = state.rounds.map(r => r.matches.map(m => ({ sa:m.sa, sb:m.sb, locked:m.locked })));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    state.rounds.forEach((r,ri) => r.matches.forEach((m,mi) => {
+      const s = data?.[ri]?.[mi];
+      if (s) { m.sa = s.sa; m.sb = s.sb; m.locked = !!s.locked; }
+    }));
+  } catch(e) {}
+}
+
+/* ═══════════ BEREKENINGEN (intern; ranglijst is verborgen) ═══════════ */
 function recompute() {
   state.players.forEach(p=>{ p.played=p.w=p.d=p.l=p.score=p.points=0; });
   state.rounds.forEach(r=>r.matches.forEach(m=>{
@@ -331,26 +654,13 @@ function recompute() {
   }));
 }
 
-function renderLeaderboard() {
-  const tb=document.getElementById('leaderboard');
-  tb.innerHTML='';
-  [...state.players].sort((a,b)=>b.points-a.points||b.score-a.score).forEach((p,i)=>{
-    tb.innerHTML+=`<tr>
-      <td class="lb-rank">${i+1}</td><td>${p.flag} ${p.name}</td>
-      <td class="lb-num">${p.played}</td><td class="lb-num">${p.w}</td>
-      <td class="lb-num">${p.d}</td><td class="lb-num">${p.l}</td>
-      <td class="lb-num">${p.score}</td><td class="lb-points">${p.points}</td>
-    </tr>`;
-  });
-}
-
 function renderResults() {
   const c=document.getElementById('allResults');
   c.innerHTML='';
   state.rounds.forEach(r=>{
     const block=document.createElement('div');
     block.className='results-round';
-    block.innerHTML=`<div class="results-round-header">Ronde ${r.round} <span class="r-time">${ROUND_TIMES[r.round]}</span></div>`;
+    block.innerHTML=`<div class="results-round-header">Ronde ${r.round} <span class="r-time">${r.time}</span></div>`;
     r.matches.forEach(m=>{
       const a=player(m.a),b=player(m.b);
       const sc=(m.sa!==null&&m.sb!==null)
@@ -363,6 +673,12 @@ function renderResults() {
       </div>`;
     });
     c.appendChild(block);
+    if (r.pauseAfter) {
+      const p=document.createElement('div');
+      p.className='results-pauze';
+      p.textContent='☕ '+r.pauseAfter;
+      c.appendChild(p);
+    }
   });
 }
 
@@ -389,61 +705,268 @@ function renderGameButtons() {
   });
 }
 
-function showGame(gameIdx) {
+/* ═══════════ SPEL-PAGINA ═══════════ */
+function renderRules(gi) {
+  const r = RULES[gi];
+  const el = document.getElementById('gp-rules');
+  if (!r) { el.innerHTML=''; return; }
+  let html = '';
+  r.uitleg.forEach(p => html += `<p class="rules-text">${p}</p>`);
+  if (r.punten) {
+    html += '<div class="rules-points"><div class="rules-points-title">Puntentelling</div>';
+    r.punten.forEach(pt => html += `<div class="rules-point">${pt}</div>`);
+    html += '</div>';
+  }
+  html += `<div class="rules-score"><span class="rules-score-label">In de app invoeren</span>${r.scoren}</div>`;
+  el.innerHTML = html;
+}
+
+function showGame(gameIdx, keepScroll) {
+  curGame = gameIdx;
   document.getElementById('gp-icon').textContent=GAME_ICONS[gameIdx];
   document.getElementById('gp-name').textContent=GAMES[gameIdx];
+  renderRules(gameIdx);
 
   const c=document.getElementById('gp-matches');
   c.innerHTML='';
-  state.rounds.forEach(r=>{
-    r.matches.forEach(m=>{
+  state.rounds.forEach((r,ri)=>{
+    r.matches.forEach((m,mi)=>{
       if(m.gameIdx!==gameIdx) return;
       const a=player(m.a),b=player(m.b);
-      const card=document.createElement('div');
-      card.className='entry-match';
+      const filled = m.sa!==null && m.sb!==null;
+      const card=document.createElement('button');
+      card.className='entry-match clickable'+(m.locked?' locked':'');
+      let status;
+      if (m.locked) status = '🔒 Vastgezet';
+      else if (filled) status = 'Tik om aan te passen';
+      else status = 'Tik om in te voeren';
       card.innerHTML=`
         <div class="entry-match-meta">
           <div class="entry-ronde">Ronde ${r.round}</div>
-          <div class="entry-time">${ROUND_TIMES[r.round]}</div>
+          <div class="entry-time">${r.time}</div>
         </div>
-        <div class="entry-teams">
+        <div class="entry-teams-view">
           <div class="entry-team">${a.flag} ${a.name}</div>
-          <input class="score-input" type="number" min="0" placeholder="—" value="${m.sa!==null?m.sa:''}">
-          <div class="entry-sep">-</div>
-          <input class="score-input" type="number" min="0" placeholder="—" value="${m.sb!==null?m.sb:''}">
+          <div class="entry-scorebox ${filled?'':'empty'}">${filled?`${m.sa} – ${m.sb}`:'—'}</div>
           <div class="entry-team right">${b.flag} ${b.name}</div>
         </div>
-        <div class="entry-saved">✓ Opgeslagen</div>`;
-      const inputs=card.querySelectorAll('input');
-      const savedEl=card.querySelector('.entry-saved');
-      function save(){
-        const va=inputs[0].value,vb=inputs[1].value;
-        if(va!==''&&vb!==''){
-          m.sa=+va;m.sb=+vb;
-          savedEl.classList.add('show');
-          setTimeout(()=>savedEl.classList.remove('show'),1800);
-          recompute();renderGameButtons();
-        }
-      }
-      inputs[0].addEventListener('change',save);
-      inputs[1].addEventListener('change',save);
+        <div class="entry-status">${status}</div>`;
+      card.onclick=()=>openEntry(ri,mi);
       c.appendChild(card);
     });
   });
 
   document.getElementById('page-home').style.display='none';
   document.getElementById('page-game').classList.add('visible');
-  window.scrollTo(0,0);
+  if(!keepScroll) window.scrollTo(0,0);
 }
 
 function goHome() {
   document.getElementById('page-game').classList.remove('visible');
   document.getElementById('page-home').style.display='block';
-  recompute();renderGameButtons();renderLeaderboard();renderResults();
+  curGame=null;
+  renderAll();
   window.scrollTo(0,0);
 }
 
-recompute();renderGameButtons();renderLeaderboard();renderResults();
+/* ═══════════ SCORE-INVOER MODAL ═══════════ */
+function showModalView(v) {
+  ['input','confirm','locked'].forEach(x=>{
+    document.getElementById('mv-'+x).style.display = (x===v)?'block':'none';
+  });
+}
+
+function openEntry(ri, mi) {
+  cur = {ri, mi};
+  const r = state.rounds[ri];
+  const m = r.matches[mi];
+  const a = player(m.a), b = player(m.b);
+
+  document.getElementById('m-round').textContent = `Ronde ${r.round} · ${r.time}`;
+  document.getElementById('m-team-a').textContent = `${a.flag} ${a.name}`;
+  document.getElementById('m-team-b').textContent = `${b.flag} ${b.name}`;
+
+  if (m.locked && !orgMode) {
+    document.getElementById('m-locked-score').textContent = `${m.sa} – ${m.sb}`;
+    showModalView('locked');
+  } else {
+    document.getElementById('m-sa').value = m.sa!==null ? m.sa : '';
+    document.getElementById('m-sb').value = m.sb!==null ? m.sb : '';
+    document.getElementById('m-err').classList.remove('show');
+    document.getElementById('m-orgnote').style.display = (m.locked && orgMode) ? 'block' : 'none';
+    showModalView('input');
+    setTimeout(()=>{ const f=document.getElementById('m-sa'); f.focus(); f.select(); }, 50);
+  }
+  document.getElementById('entryModal').classList.add('open');
+}
+
+function entryOK() {
+  const va = document.getElementById('m-sa').value;
+  const vb = document.getElementById('m-sb').value;
+  if (va==='' || vb==='' || +va<0 || +vb<0) {
+    document.getElementById('m-err').classList.add('show');
+    return;
+  }
+  const m = state.rounds[cur.ri].matches[cur.mi];
+  const a = player(m.a), b = player(m.b);
+  document.getElementById('m-confirm-text').innerHTML =
+    `${a.flag} ${a.name}<b>${+va} – ${+vb}</b>${b.flag} ${b.name}`;
+  showModalView('confirm');
+}
+
+function entryBack() { showModalView('input'); }
+
+function entryConfirm() {
+  const r = state.rounds[cur.ri];
+  const m = r.matches[cur.mi];
+  m.sa = +document.getElementById('m-sa').value;
+  m.sb = +document.getElementById('m-sb').value;
+  m.locked = true;
+  saveState();
+  pushToCloud(r.round, m.gameIdx, m);
+  recompute();
+  closeEntry();
+  if (curGame!==null) showGame(curGame, true);
+  renderGameButtons(); renderResults();
+}
+
+function closeEntry() {
+  document.getElementById('entryModal').classList.remove('open');
+  cur = null;
+}
+
+/* ═══════════ ORGANISATIEMODUS ═══════════ */
+function orgFabClick() { if (orgMode) exitOrg(); else openPin(); }
+function openPin() {
+  document.getElementById('pinInput').value='';
+  document.getElementById('pin-err').classList.remove('show');
+  document.getElementById('pinModal').classList.add('open');
+  setTimeout(()=>document.getElementById('pinInput').focus(), 50);
+}
+function closePin() { document.getElementById('pinModal').classList.remove('open'); }
+function checkPin() {
+  if (document.getElementById('pinInput').value === ORG_PIN) {
+    orgMode = true;
+    document.body.classList.add('org-active');
+    document.getElementById('orgBanner').classList.add('show');
+    document.getElementById('orgFab').textContent='🔓';
+    closePin();
+  } else {
+    document.getElementById('pin-err').classList.add('show');
+  }
+}
+function exitOrg() {
+  orgMode = false;
+  document.body.classList.remove('org-active');
+  document.getElementById('orgBanner').classList.remove('show');
+  document.getElementById('orgFab').textContent='🔐';
+}
+document.getElementById('pinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPin(); });
+
+/* ═══════════ CLOUD SYNC (centrale scores) ═══════════ */
+// Wordt gevuld door de Firebase-module onderaan de pagina.
+window.AppCloud = { push: null };
+
+function cloudKey(round, gameIdx){ return 'r'+round+'_g'+gameIdx; }
+
+function pushToCloud(round, gameIdx, m){
+  if (window.AppCloud.push) {
+    window.AppCloud.push(cloudKey(round, gameIdx), { sa:m.sa, sb:m.sb, locked:m.locked });
+  }
+}
+
+// Aangeroepen door de Firebase-module bij elke wijziging op welk apparaat dan ook.
+function applyRemote(data){
+  if (!data) return;
+  let changed = false;
+  state.rounds.forEach(r => r.matches.forEach(m => {
+    const d = data[cloudKey(r.round, m.gameIdx)];
+    if (d) {
+      m.sa = (d.sa===undefined ? null : d.sa);
+      m.sb = (d.sb===undefined ? null : d.sb);
+      m.locked = !!d.locked;
+      changed = true;
+    }
+  }));
+  if (!changed) return;
+  saveState();
+  recompute();
+  renderGameButtons();
+  renderResults();
+  if (curGame !== null) showGame(curGame, true);
+}
+window.applyRemote = applyRemote;
+
+function setCloudStatus(text, cls){
+  const el = document.getElementById('cloudStatus');
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'cloud-pill ' + (cls || '');
+}
+window.setCloudStatus = setCloudStatus;
+
+/* ═══════════ INIT ═══════════ */
+function renderAll() { recompute(); renderGameButtons(); renderResults(); }
+
+loadState();
+renderAll();
 </script>
+
+<!-- ══════════ CLOUD: FIREBASE FIRESTORE ══════════ -->
+<!-- Zonder geldige config blijft de app gewoon lokaal draaien. -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* ─────────────────────────────────────────────────────────────
+   PLAK HIER JE EIGEN FIREBASE-CONFIG
+   Ophalen via console.firebase.google.com -> projectinstellingen
+   -> "Je apps" -> web-app (</>) -> SDK-configuratie.
+   Zolang dit op "PLAK_HIER" staat, blijft de app lokaal werken.
+   ───────────────────────────────────────────────────────────── */
+const firebaseConfig = {
+  apiKey: "AIzaSyCt3FdRaC-UdLAIyQIq-0Oso0kq1xXh6SM",
+  authDomain: "pupillenweekend---scores.firebaseapp.com",
+  projectId: "pupillenweekend---scores",
+  storageBucket: "pupillenweekend---scores.firebasestorage.app",
+  messagingSenderId: "869023671062",
+  appId: "1:869023671062:web:689f403a6f0dc0390ea637",
+  measurementId: "G-8FMDTXYS3N"
+};
+
+if (firebaseConfig.projectId && firebaseConfig.projectId !== "PLAK_HIER") {
+  try {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const ref = doc(db, "toernooi", "scores");
+
+    // Realtime: elke wijziging van elk apparaat komt hier binnen.
+    onSnapshot(ref,
+      (snap) => {
+        window.applyRemote(snap.data());
+        window.setCloudStatus("Live verbonden", "live");
+      },
+      (err) => {
+        console.error("Firestore listener-fout:", err);
+        window.setCloudStatus("Cloud-fout - lokaal verder", "offline");
+      }
+    );
+
+    // Schrijffunctie voor de app (een veld per wedstrijd, samengevoegd).
+    window.AppCloud.push = async (key, value) => {
+      try { await setDoc(ref, { [key]: value }, { merge: true }); }
+      catch (e) { console.error("Firestore schrijffout:", e); }
+    };
+
+    console.log("Firebase geinitialiseerd.");
+  } catch (e) {
+    console.error("Firebase-init mislukt - app draait lokaal verder.", e);
+    window.setCloudStatus("Lokaal - cloud niet bereikbaar", "offline");
+  }
+} else {
+  console.log("Geen Firebase-config ingevuld - app draait lokaal.");
+}
+</script>
+
 </body>
 </html>
