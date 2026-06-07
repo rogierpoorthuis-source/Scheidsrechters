@@ -258,6 +258,71 @@ body::before {
 body.org-active .org-fab { background: var(--accent); border-color: var(--accent); }
 
 #page-game { display: none; }
+#page-home, #page-saturday { display: none; }
+
+/* LANDING / KEUZE */
+.choice-grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .choice-grid { grid-template-columns: 1fr 1fr; } }
+.choice-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 30px 20px; cursor: pointer; text-align: center; transition: all 0.18s ease;
+  position: relative; overflow: hidden; font-family: inherit; color: inherit;
+}
+.choice-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,106,0,0.10), transparent 65%);
+  opacity: 0; transition: opacity 0.18s;
+}
+.choice-card:active { transform: scale(0.98); }
+.choice-card:active::before, .choice-card:hover::before { opacity: 1; }
+@media (hover:hover) { .choice-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.45); } }
+.choice-icon { font-size: 48px; line-height: 1; }
+.choice-day { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent-light); margin-top: 16px; }
+.choice-name { font-family: 'Oswald', sans-serif; font-size: 21px; font-weight: 700; text-transform: uppercase; color: #fff; margin-top: 6px; line-height: 1.12; }
+.choice-sub { font-size: 12px; color: var(--muted); margin-top: 10px; font-weight: 300; }
+
+/* STANDEN — GROOT SCHERM */
+#page-standings { display: none; }
+#page-standings.proj { max-width: 1400px; }
+.proj-entry {
+  display: block; width: 100%; margin-top: 14px; background: transparent;
+  border: 1px solid var(--border-subtle); color: var(--muted);
+  font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 14px; border-radius: 10px; cursor: pointer; transition: all 0.15s;
+}
+.proj-entry:active, .proj-entry:hover { border-color: var(--accent); color: var(--accent); }
+.proj-header { display: flex; justify-content: space-between; align-items: center; margin: 8px 0 24px; gap: 16px; flex-wrap: wrap; }
+.proj-title { font-family: 'Oswald', sans-serif; font-size: clamp(24px, 4vw, 44px); font-weight: 700; text-transform: uppercase; color: #fff; letter-spacing: -0.5px; }
+.proj-title span { color: var(--accent); }
+.proj-fs-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--accent-light); font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; padding: 10px 16px; border-radius: 8px; cursor: pointer; }
+.proj-fs-btn:active { border-color: var(--accent); }
+.standings-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .standings-grid { grid-template-columns: 1fr 1fr; } }
+.standings-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+.standings-poule { font-family: 'Oswald', sans-serif; font-size: clamp(18px, 2.4vw, 28px); font-weight: 700; text-transform: uppercase; color: var(--accent-light); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.standings-poule::before { content: ''; width: 5px; height: 22px; background: var(--accent); border-radius: 2px; }
+.standings-table { width: 100%; border-collapse: collapse; }
+.standings-table th { font-family: 'Oswald', sans-serif; font-size: clamp(11px, 1.2vw, 14px); letter-spacing: 1px; text-transform: uppercase; color: var(--muted); padding: 8px 6px; text-align: center; border-bottom: 2px solid var(--border); }
+.standings-table th:nth-child(2) { text-align: left; }
+.standings-table td { font-family: 'Oswald', sans-serif; font-size: clamp(16px, 1.8vw, 24px); font-weight: 600; color: var(--text); padding: 10px 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.standings-table td.st-team { text-align: left; font-weight: 500; }
+.standings-table td.st-pos { color: var(--muted); width: 1%; }
+.standings-table td.st-pts { color: var(--accent-light); }
+.standings-table tbody tr:first-child td.st-pos { color: var(--accent); }
+.proj-demo-note { text-align: center; color: var(--accent2); font-size: 13px; margin-top: 22px; padding: 12px; border: 1px dashed rgba(245,158,11,0.3); border-radius: 8px; }
+/* DAGSCHEMA */
+.sched-row { display: flex; align-items: baseline; gap: 14px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.sched-row:last-child { border-bottom: none; }
+.sched-time { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 14px; color: var(--accent-light); min-width: 48px; flex-shrink: 0; }
+.sched-act { font-size: 13px; color: var(--text); font-weight: 300; line-height: 1.4; }
+/* KRUISFINALES (standenpagina) */
+.kf-block { margin-top: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+.kf-title { font-family: 'Oswald', sans-serif; font-size: clamp(16px, 2vw, 22px); font-weight: 700; text-transform: uppercase; color: var(--accent2); margin-bottom: 14px; }
+.kf-row { font-family: 'Oswald', sans-serif; font-size: clamp(16px, 1.8vw, 22px); font-weight: 600; color: #fff; padding: 8px 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.kf-tag { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-light); background: var(--accent-glow); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; }
+.kf-vs { color: var(--muted); font-size: 13px; }
+.kf-note { font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 12px; font-style: italic; }
+.kf-champ { font-family: 'Oswald', sans-serif; font-size: clamp(18px, 2.2vw, 26px); font-weight: 700; color: var(--accent2); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
 @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 #page-game.visible { display: block; animation: fadeIn 0.25s ease; }
 </style>
@@ -270,13 +335,38 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
   <button onclick="exitOrg()">Afsluiten</button>
 </div>
 
-<!-- ══════════ HOME ══════════ -->
-<div id="page-home" class="container">
+<!-- ══════════ LANDING / KEUZE ══════════ -->
+<div id="page-landing" class="container">
   <div class="hero">
-    <div class="hero-badge">⚽ Scheidsrechter Portaal</div>
-    <h1>Pupillenweekend <span>Altius</span></h1>
-    <p>Spelletjestoernooi Vrijdag — Scores invoeren</p>
+    <div class="hero-badge">⚽ Voetbalvereniging Altius</div>
+    <h1>Pupillen<span>weekend</span></h1>
+    <p>Kies een onderdeel</p>
     <div id="cloudStatus" class="cloud-pill offline">📴 Lokaal — cloud nog niet ingesteld</div>
+  </div>
+  <div class="choice-grid">
+    <button class="choice-card" onclick="showFriday()">
+      <div class="choice-icon">🎯</div>
+      <div class="choice-day">Vrijdag</div>
+      <div class="choice-name">Spelletjestoernooi</div>
+      <div class="choice-sub">9 spellen · 16 landenteams</div>
+    </button>
+    <button class="choice-card" onclick="showSaturday()">
+      <div class="choice-icon">⚽</div>
+      <div class="choice-day">Zaterdag</div>
+      <div class="choice-name">Voetbaltoernooi</div>
+      <div class="choice-sub">Programma volgt</div>
+    </button>
+  </div>
+  <button class="proj-entry" onclick="showStandings()">📺 Standen voor groot scherm (organisatie)</button>
+</div>
+
+<!-- ══════════ VRIJDAG — HOME ══════════ -->
+<div id="page-home" class="container">
+  <button class="back-btn" onclick="showLanding()">← Terug naar keuze</button>
+  <div class="hero">
+    <div class="hero-badge">🎯 Spelletjestoernooi · Vrijdag</div>
+    <h1>Spelletjes<span>toernooi</span></h1>
+    <p>Scheidsrechter — Scores invoeren</p>
   </div>
 
   <!-- CONTACT ORGANISATIE -->
@@ -346,6 +436,75 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
   </div>
 </div>
 
+<!-- ══════════ ZATERDAG — VOETBALTOERNOOI ══════════ -->
+<div id="page-saturday" class="container">
+  <button class="back-btn" onclick="showLanding()">← Terug naar keuze</button>
+  <div class="hero">
+    <div class="hero-badge">⚽ Voetbaltoernooi · Zaterdag 13 juni</div>
+    <h1>Voetbal<span>toernooi</span></h1>
+    <p>Scheidsrechter — Scores invoeren</p>
+  </div>
+
+  <button class="proj-entry" onclick="showStandings()" style="margin-top:0;margin-bottom:20px">📊 Bekijk de standen (groot scherm)</button>
+
+  <!-- SPELREGELS -->
+  <div class="panel">
+    <div class="panel-title green-c">📋 Spelregels</div>
+    <div class="rules-points">
+      <div class="rules-point">O12/O13-spelers mogen niet op doel schieten en dus niet scoren</div>
+      <div class="rules-point">Indribbelen én ingooien mag allebei</div>
+      <div class="rules-point">Gespeeld als 9×9 (voorstel: 8×8)</div>
+      <div class="rules-point">Geen spelers van andere teams inzetten</div>
+      <div class="rules-point">Bij spelerstekort door blessures: in overleg met de andere bondscoach een andere formatie</div>
+      <div class="rules-point">Finale gelijk? Penalty's in volgorde: 1× O8/O9, 1× O10/O11, 1× O12/O13</div>
+    </div>
+    <p class="rules-text">Elke wedstrijd duurt ca. 12 minuten. Na het signaal resteren 5 minuten om de volgende wedstrijd voor te bereiden; daarna start op een nieuw signaal de volgende wedstrijd.</p>
+    <div class="rules-score"><span class="rules-score-label">Na de wedstrijd</span>Scheidsrechters geven de uitslag door aan het wedstrijdsecretariaat en doen verslag over sportief gedrag voor de Anne Hidden-sportiviteitsprijs.</div>
+  </div>
+
+  <!-- DAGSCHEMA / FINALES -->
+  <div class="panel">
+    <div class="panel-title gold">🏆 Dagschema & finales</div>
+    <div class="sched-row"><span class="sched-time">09:00</span><span class="sched-act">Start toernooi (poulewedstrijden)</span></div>
+    <div class="sched-row"><span class="sched-time">12:35</span><span class="sched-act">Kruisfinales — Veld 1A: A1–B2 · Veld 1B: A2–B1</span></div>
+    <div class="sched-row"><span class="sched-time">12:55</span><span class="sched-act">Overige kruisfinales — plaats 5 t/m 16 (Poule A en B onderling)</span></div>
+    <div class="sched-row"><span class="sched-time">13:15</span><span class="sched-act">Wedstrijd om 3e/4e plaats (verliezers kruisfinale) — Veld 2A</span></div>
+    <div class="sched-row"><span class="sched-time">13:30</span><span class="sched-act">Finale — Veld 2A</span></div>
+    <div class="sched-row"><span class="sched-time">14:00</span><span class="sched-act">Prijsuitreiking — Veld 1A</span></div>
+  </div>
+
+  <!-- POULE A -->
+  <div class="panel">
+    <div class="panel-title">Poule A — Scores invoeren</div>
+    <div id="satA-matches"></div>
+  </div>
+
+  <!-- POULE B -->
+  <div class="panel">
+    <div class="panel-title">Poule B — Scores invoeren</div>
+    <div id="satB-matches"></div>
+  </div>
+
+  <!-- KNOCK-OUT -->
+  <div class="panel">
+    <div class="panel-title gold">🏆 Knock-out fase — Scores invoeren</div>
+    <p class="rules-text" style="margin-bottom:14px">De teams vullen zich automatisch: de kruisfinales uit de eindstand van de poules, de finale en de 3e/4e plaats uit de kruisfinale-uitslagen.</p>
+    <div id="ko-matches"></div>
+    <div class="rules-score" style="margin-top:14px"><span class="rules-score-label">Let op — geen gelijkspel</span>Een knock-out kan niet gelijk eindigen. Bij een gelijke stand beslissen penalty's (finale: 1× O8/O9, 1× O10/O11, 1× O12/O13). Voer de uitslag ná penalty's in, met de winnaar op het hoogste aantal.</div>
+  </div>
+</div>
+
+<!-- ══════════ STANDEN — GROOT SCHERM (organisatie) ══════════ -->
+<div id="page-standings" class="container proj">
+  <button class="back-btn proj-back" onclick="showLanding()">← Terug naar keuze</button>
+  <div class="proj-header">
+    <div class="proj-title">Voetbaltoernooi — <span>Tussenstand</span></div>
+    <button class="proj-fs-btn" onclick="toggleFullscreen()">⛶ Volledig scherm</button>
+  </div>
+  <div id="standingsGrid" class="standings-grid"></div>
+  <div id="kruisfinales" class="kf-block"></div>
+</div>
+
 <!-- ══════════ SCORE ENTRY MODAL ══════════ -->
 <div id="entryModal" class="modal-overlay" onclick="if(event.target===this)closeEntry()">
   <div class="modal">
@@ -409,7 +568,7 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
 <script>
 /* ═══════════ CONFIG ═══════════ */
 // ⚠️ WIJZIG DEZE PINCODE naar iets eigen vóór gebruik.
-const ORG_PIN = "1234";
+const ORG_PIN = "1931";
 const STORAGE_KEY = "altius_pupillenweekend_v2";
 
 /* ═══════════ SPELLEN (9 stations) ═══════════ */
@@ -769,6 +928,30 @@ function goHome() {
   window.scrollTo(0,0);
 }
 
+/* ═══════════ NAVIGATIE TUSSEN ONDERDELEN ═══════════ */
+function hideAllPages() {
+  document.getElementById('page-landing').style.display='none';
+  document.getElementById('page-home').style.display='none';
+  document.getElementById('page-saturday').style.display='none';
+  document.getElementById('page-standings').style.display='none';
+  document.getElementById('page-game').classList.remove('visible');
+}
+function showLanding() { hideAllPages(); document.getElementById('page-landing').style.display='block'; window.scrollTo(0,0); }
+function showFriday()  { hideAllPages(); document.getElementById('page-home').style.display='block'; renderAll(); window.scrollTo(0,0); }
+function showSaturday(){ hideAllPages(); renderSatPoule('A'); renderSatPoule('B'); renderKnockout(); document.getElementById('page-saturday').style.display='block'; window.scrollTo(0,0); }
+function showStandings(){ hideAllPages(); renderStandings(); document.getElementById('page-standings').style.display='block'; window.scrollTo(0,0); }
+
+function toggleFullscreen() {
+  try {
+    if (!document.fullscreenElement) {
+      const el = document.documentElement;
+      (el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen).call(el);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen).call(document);
+    }
+  } catch(e) {}
+}
+
 /* ═══════════ SCORE-INVOER MODAL ═══════════ */
 function showModalView(v) {
   ['input','confirm','locked'].forEach(x=>{
@@ -776,28 +959,48 @@ function showModalView(v) {
   });
 }
 
-function openEntry(ri, mi) {
-  cur = {ri, mi};
-  const r = state.rounds[ri];
-  const m = r.matches[mi];
-  const a = player(m.a), b = player(m.b);
-
-  document.getElementById('m-round').textContent = `Ronde ${r.round} · ${r.time}`;
-  document.getElementById('m-team-a').textContent = `${a.flag} ${a.name}`;
-  document.getElementById('m-team-b').textContent = `${b.flag} ${b.name}`;
+// Generieke invoer: werkt voor zowel vrijdag (spellen) als zaterdag (poules).
+// opts = { match, roundLabel, teamA, teamB, onSave, rerender }
+function openMatchEntry(opts) {
+  cur = opts;
+  const m = opts.match;
+  document.getElementById('m-round').textContent = opts.roundLabel;
+  document.getElementById('m-team-a').textContent = opts.teamA;
+  document.getElementById('m-team-b').textContent = opts.teamB;
 
   if (m.locked && !orgMode) {
     document.getElementById('m-locked-score').textContent = `${m.sa} – ${m.sb}`;
     showModalView('locked');
   } else {
-    document.getElementById('m-sa').value = m.sa!==null ? m.sa : '';
-    document.getElementById('m-sb').value = m.sb!==null ? m.sb : '';
+    document.getElementById('m-sa').value = m.sa!==null && m.sa!==undefined ? m.sa : '';
+    document.getElementById('m-sb').value = m.sb!==null && m.sb!==undefined ? m.sb : '';
     document.getElementById('m-err').classList.remove('show');
     document.getElementById('m-orgnote').style.display = (m.locked && orgMode) ? 'block' : 'none';
     showModalView('input');
     setTimeout(()=>{ const f=document.getElementById('m-sa'); f.focus(); f.select(); }, 50);
   }
   document.getElementById('entryModal').classList.add('open');
+}
+
+// Vrijdag-opener
+function openEntry(ri, mi) {
+  const r = state.rounds[ri];
+  const m = r.matches[mi];
+  const a = player(m.a), b = player(m.b);
+  openMatchEntry({
+    match: m,
+    roundLabel: `Ronde ${r.round} · ${r.time}`,
+    teamA: `${a.flag} ${a.name}`,
+    teamB: `${b.flag} ${b.name}`,
+    onSave: (mm) => {
+      saveState();
+      pushToCloud(r.round, mm.gameIdx, mm);
+      recompute();
+      renderGameButtons(); renderResults();
+      if (curGame!==null) showGame(curGame, true);
+    },
+    rerender: null
+  });
 }
 
 function entryOK() {
@@ -807,27 +1010,22 @@ function entryOK() {
     document.getElementById('m-err').classList.add('show');
     return;
   }
-  const m = state.rounds[cur.ri].matches[cur.mi];
-  const a = player(m.a), b = player(m.b);
   document.getElementById('m-confirm-text').innerHTML =
-    `${a.flag} ${a.name}<b>${+va} – ${+vb}</b>${b.flag} ${b.name}`;
+    `${cur.teamA}<b>${+va} – ${+vb}</b>${cur.teamB}`;
   showModalView('confirm');
 }
 
 function entryBack() { showModalView('input'); }
 
 function entryConfirm() {
-  const r = state.rounds[cur.ri];
-  const m = r.matches[cur.mi];
+  const m = cur.match;
   m.sa = +document.getElementById('m-sa').value;
   m.sb = +document.getElementById('m-sb').value;
   m.locked = true;
-  saveState();
-  pushToCloud(r.round, m.gameIdx, m);
-  recompute();
+  const onSave = cur.onSave, rerender = cur.rerender;
+  if (onSave) onSave(m);
   closeEntry();
-  if (curGame!==null) showGame(curGame, true);
-  renderGameButtons(); renderResults();
+  if (rerender) rerender();
 }
 
 function closeEntry() {
@@ -863,6 +1061,276 @@ function exitOrg() {
 }
 document.getElementById('pinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPin(); });
 
+/* ═══════════ ZATERDAG — VOETBALTOERNOOI ═══════════ */
+const SAT_FLAGS = {
+  "Spanje":"🇪🇸","Marokko":"🇲🇦","Saoedi Arabië":"🇸🇦","Zweden":"🇸🇪","Japan":"🇯🇵",
+  "Curaçao":"🇨🇼","Verenigde Staten":"🇺🇸","Engeland":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Portugal":"🇵🇹","Mexico":"🇲🇽",
+  "Brazilië":"🇧🇷","Australië":"🇦🇺","Frankrijk":"🇫🇷","Argentinië":"🇦🇷","Duitsland":"🇩🇪","Nederland":"🇳🇱"
+};
+const SAT_POULES = {
+  A: ["Spanje","Marokko","Saoedi Arabië","Zweden","Japan","Curaçao","Verenigde Staten","Engeland"],
+  B: ["Portugal","Mexico","Brazilië","Australië","Frankrijk","Argentinië","Duitsland","Nederland"]
+};
+// Wedstrijden per poule. [ronde, veld, tijd, scheids, team1, team2]
+// NB: in Poule A is "Duitsland" uit het bronschema vervangen door "Japan" (zie toelichting).
+const SAT_RAW = {
+  A: [
+    [1,"1A","9.00-9.12","Scheids 1","Marokko","Saoedi Arabië"],
+    [1,"1B","9.00-9.12","Scheids 2","Zweden","Spanje"],
+    [1,"2A","9.00-9.12","Scheids 3","Japan","Curaçao"],
+    [2,"1A","9.17-9.29","Scheids 4","Verenigde Staten","Engeland"],
+    [2,"1B","9.17-9.29","Scheids 5","Curaçao","Saoedi Arabië"],
+    [2,"2A","9.17-9.29","Scheids 6","Marokko","Spanje"],
+    [3,"1A","9.34-9.46","Scheids 7","Verenigde Staten","Japan"],
+    [3,"1B","9.34-9.46","Scheids 8","Zweden","Engeland"],
+    [3,"2A","9.34-9.46","Scheids 1","Marokko","Curaçao"],
+    [4,"1A","9.51-10.03","Scheids 2","Japan","Zweden"],
+    [4,"1B","9.51-10.03","Scheids 3","Engeland","Spanje"],
+    [4,"2A","9.51-10.03","Scheids 4","Saoedi Arabië","Verenigde Staten"],
+    [5,"1A","10.18-10.30","Scheids 5","Engeland","Marokko"],
+    [5,"1B","10.18-10.30","Scheids 6","Zweden","Saoedi Arabië"],
+    [5,"2A","10.18-10.30","Scheids 7","Verenigde Staten","Curaçao"],
+    [6,"1A","10.35-10.47","Scheids 8","Spanje","Japan"],
+    [6,"1B","10.35-10.47","Scheids 1","Marokko","Verenigde Staten"],
+    [6,"2A","10.35-10.47","Scheids 2","Curaçao","Zweden"],
+    [7,"1A","10.52-11.04","Scheids 3","Japan","Engeland"],
+    [7,"1B","10.52-11.04","Scheids 4","Saoedi Arabië","Spanje"],
+    [7,"2A","10.52-11.04","Scheids 5","Zweden","Verenigde Staten"],
+    [8,"1A","11.19-11.31","Scheids 6","Marokko","Japan"],
+    [8,"1B","11.19-11.31","Scheids 7","Spanje","Curaçao"],
+    [8,"2A","11.19-11.31","Scheids 8","Engeland","Saoedi Arabië"],
+    [9,"1A","11.36-11.48","Scheids 1","Marokko","Zweden"],
+    [9,"1B","11.36-11.48","Scheids 2","Verenigde Staten","Spanje"],
+    [9,"2A","11.36-11.48","Scheids 3","Curaçao","Engeland"],
+    [10,"1A","11.53-12.05","Scheids 4","Saoedi Arabië","Japan"]
+  ],
+  B: [
+    [1,"2B","9.00-9.12","Scheids 6","Portugal","Mexico"],
+    [1,"3A","9.00-9.12","Scheids 7","Brazilië","Australië"],
+    [1,"3B","9.00-9.12","Scheids 8","Frankrijk","Argentinië"],
+    [2,"2B","9.17-9.29","Scheids 1","Duitsland","Nederland"],
+    [2,"3A","9.17-9.29","Scheids 2","Argentinië","Mexico"],
+    [2,"3B","9.17-9.29","Scheids 3","Portugal","Australië"],
+    [3,"2B","9.34-9.46","Scheids 4","Duitsland","Frankrijk"],
+    [3,"3A","9.34-9.46","Scheids 5","Brazilië","Nederland"],
+    [3,"3B","9.34-9.46","Scheids 6","Portugal","Argentinië"],
+    [4,"2B","9.51-10.03","Scheids 7","Frankrijk","Brazilië"],
+    [4,"3A","9.51-10.03","Scheids 8","Nederland","Australië"],
+    [4,"3B","9.51-10.03","Scheids 1","Mexico","Duitsland"],
+    [5,"2B","10.18-10.30","Scheids 2","Nederland","Portugal"],
+    [5,"3A","10.18-10.30","Scheids 3","Brazilië","Mexico"],
+    [5,"3B","10.18-10.30","Scheids 4","Duitsland","Argentinië"],
+    [6,"2B","10.35-10.47","Scheids 5","Australië","Frankrijk"],
+    [6,"3A","10.35-10.47","Scheids 6","Portugal","Duitsland"],
+    [6,"3B","10.35-10.47","Scheids 7","Argentinië","Brazilië"],
+    [7,"2B","10.52-11.04","Scheids 8","Frankrijk","Nederland"],
+    [7,"3A","10.52-11.04","Scheids 1","Mexico","Australië"],
+    [7,"3B","10.52-11.04","Scheids 2","Brazilië","Duitsland"],
+    [8,"2B","11.19-11.31","Scheids 3","Portugal","Frankrijk"],
+    [8,"3A","11.19-11.31","Scheids 4","Australië","Argentinië"],
+    [8,"3B","11.19-11.31","Scheids 5","Nederland","Mexico"],
+    [9,"2B","11.36-11.48","Scheids 6","Portugal","Brazilië"],
+    [9,"3A","11.36-11.48","Scheids 7","Duitsland","Australië"],
+    [9,"3B","11.36-11.48","Scheids 8","Argentinië","Nederland"],
+    [10,"2B","11.53-12.05","Scheids 1","Mexico","Frankrijk"]
+  ]
+};
+const satMatches = {
+  A: SAT_RAW.A.map(x => ({ r:x[0], veld:x[1], tijd:x[2], scheids:x[3], a:x[4], b:x[5], sa:null, sb:null, locked:false })),
+  B: SAT_RAW.B.map(x => ({ r:x[0], veld:x[1], tijd:x[2], scheids:x[3], a:x[4], b:x[5], sa:null, sb:null, locked:false }))
+};
+
+/* Persistentie zaterdag (per apparaat) */
+const SAT_STORAGE_KEY = "altius_zaterdag_v1";
+function saveSat() {
+  try {
+    const d = { A: satMatches.A.map(m=>({sa:m.sa,sb:m.sb,locked:m.locked})),
+                B: satMatches.B.map(m=>({sa:m.sa,sb:m.sb,locked:m.locked})),
+                KO: koMatches.map(k=>({id:k.id,sa:k.sa,sb:k.sb,locked:k.locked})) };
+    localStorage.setItem(SAT_STORAGE_KEY, JSON.stringify(d));
+  } catch(e) {}
+}
+function loadSat() {
+  try {
+    const raw = localStorage.getItem(SAT_STORAGE_KEY); if(!raw) return;
+    const d = JSON.parse(raw);
+    ['A','B'].forEach(p => satMatches[p].forEach((m,i) => {
+      const s = d?.[p]?.[i]; if(s){ m.sa=s.sa; m.sb=s.sb; m.locked=!!s.locked; }
+    }));
+    if (d?.KO) d.KO.forEach(s => { const k=koById(s.id); if(k){ k.sa=s.sa; k.sb=s.sb; k.locked=!!s.locked; } });
+  } catch(e) {}
+}
+function cloudKeySat(p, i){ return 'zat'+p+'_'+i; }
+function pushSatToCloud(p, i, m){
+  if (window.AppCloud.push) window.AppCloud.push(cloudKeySat(p,i), { sa:m.sa, sb:m.sb, locked:m.locked });
+}
+
+/* Standen berekenen (3 punten winst, 1 gelijk; sortering: punten, saldo, voor) */
+function computeStandings(p){
+  const rows = SAT_POULES[p].map(name => ({ name, gp:0,w:0,d:0,l:0,gf:0,ga:0,gd:0,pts:0 }));
+  const idx = {}; rows.forEach((r,i)=>idx[r.name]=i);
+  satMatches[p].forEach(m => {
+    if (m.sa===null||m.sb===null) return;
+    const A=rows[idx[m.a]], B=rows[idx[m.b]];
+    A.gp++; B.gp++; A.gf+=m.sa; A.ga+=m.sb; B.gf+=m.sb; B.ga+=m.sa;
+    if (m.sa>m.sb){ A.w++; B.l++; A.pts+=3; }
+    else if (m.sb>m.sa){ B.w++; A.l++; B.pts+=3; }
+    else { A.d++; B.d++; A.pts++; B.pts++; }
+  });
+  rows.forEach(r => r.gd = r.gf - r.ga);
+  rows.sort((x,y) => y.pts-x.pts || y.gd-x.gd || y.gf-x.gf || x.name.localeCompare(y.name));
+  return rows;
+}
+
+/* Score-invoer lijst per poule (gegroepeerd per ronde) */
+function renderSatPoule(p){
+  const el = document.getElementById('sat'+p+'-matches');
+  if (!el) return;
+  el.innerHTML = '';
+  let curRonde = null;
+  satMatches[p].forEach((m, i) => {
+    if (m.r !== curRonde) {
+      curRonde = m.r;
+      const h = document.createElement('div');
+      h.className = 'results-round-header';
+      h.style.marginTop = '14px';
+      h.innerHTML = `Ronde ${m.r} <span class="r-time">${m.tijd}</span>`;
+      el.appendChild(h);
+    }
+    const filled = m.sa!==null && m.sb!==null;
+    const card = document.createElement('button');
+    card.className = 'entry-match clickable' + (m.locked?' locked':'');
+    let status = m.locked ? '🔒 Vastgezet' : (filled ? 'Tik om aan te passen' : 'Tik om in te voeren');
+    card.innerHTML = `
+      <div class="entry-match-meta">
+        <div class="entry-ronde">Veld ${m.veld} · ${m.scheids}</div>
+        <div class="entry-time">${m.tijd}</div>
+      </div>
+      <div class="entry-teams-view">
+        <div class="entry-team">${SAT_FLAGS[m.a]||''} ${m.a}</div>
+        <div class="entry-scorebox ${filled?'':'empty'}">${filled?`${m.sa} – ${m.sb}`:'—'}</div>
+        <div class="entry-team right">${SAT_FLAGS[m.b]||''} ${m.b}</div>
+      </div>
+      <div class="entry-status">${status}</div>`;
+    card.onclick = () => openEntrySat(p, i);
+    el.appendChild(card);
+  });
+}
+
+function openEntrySat(p, i){
+  const m = satMatches[p][i];
+  openMatchEntry({
+    match: m,
+    roundLabel: `Poule ${p} · Ronde ${m.r} · ${m.tijd} · Veld ${m.veld}`,
+    teamA: `${SAT_FLAGS[m.a]||''} ${m.a}`,
+    teamB: `${SAT_FLAGS[m.b]||''} ${m.b}`,
+    onSave: (mm) => { saveSat(); pushSatToCloud(p, i, mm); },
+    rerender: () => { renderSatPoule(p); renderStandings(); }
+  });
+}
+
+/* Standenpagina (groot scherm) */
+function renderStandings(){
+  const grid = document.getElementById('standingsGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  ['A','B'].forEach(p => {
+    const rows = computeStandings(p);
+    let body = '';
+    rows.forEach((r,i) => {
+      body += `<tr>
+        <td class="st-pos">${i+1}</td>
+        <td class="st-team">${SAT_FLAGS[r.name]||''} ${r.name}</td>
+        <td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+        <td>${r.gd>0?'+':''}${r.gd}</td>
+        <td class="st-pts">${r.pts}</td>
+      </tr>`;
+    });
+    const card = document.createElement('div');
+    card.className = 'standings-card';
+    card.innerHTML = `
+      <div class="standings-poule">Poule ${p}</div>
+      <table class="standings-table">
+        <thead><tr><th>#</th><th>Team</th><th>Wed</th><th>W</th><th>G</th><th>V</th><th>+/-</th><th>Ptn</th></tr></thead>
+        <tbody>${body}</tbody>
+      </table>`;
+    grid.appendChild(card);
+  });
+  renderKnockoutSummary();
+}
+
+/* ─── Knock-out fase (plaats 1 t/m 4) ─── */
+function stand(p, i){ const s = computeStandings(p); return s[i] ? s[i].name : null; }
+
+const KO = [
+  { id:'KF1', label:'Kruisfinale 1', veld:'1A', tijd:'12:35', resolve:()=>[stand('A',0), stand('B',1)] },
+  { id:'KF2', label:'Kruisfinale 2', veld:'1B', tijd:'12:35', resolve:()=>[stand('A',1), stand('B',0)] },
+  { id:'P34', label:'Om 3e/4e plaats', veld:'2A', tijd:'13:15', resolve:()=>[koLoser('KF1'), koLoser('KF2')] },
+  { id:'FIN', label:'Finale', veld:'2A', tijd:'13:30', resolve:()=>[koWinner('KF1'), koWinner('KF2')] }
+];
+const koMatches = KO.map(k => ({ id:k.id, label:k.label, veld:k.veld, tijd:k.tijd, resolve:k.resolve, sa:null, sb:null, locked:false }));
+
+function koById(id){ return koMatches.find(k=>k.id===id); }
+function koWinner(id){ const k=koById(id); const [a,b]=k.resolve(); if(k.sa==null||k.sb==null||k.sa===k.sb) return null; return k.sa>k.sb?a:b; }
+function koLoser(id){ const k=koById(id); const [a,b]=k.resolve(); if(k.sa==null||k.sb==null||k.sa===k.sb) return null; return k.sa>k.sb?b:a; }
+function koSideLabel(id, side){
+  if(id==='FIN') return side===0 ? 'Winnaar kruisfinale 1' : 'Winnaar kruisfinale 2';
+  if(id==='P34') return side===0 ? 'Verliezer kruisfinale 1' : 'Verliezer kruisfinale 2';
+  return 'Nader te bepalen';
+}
+function koTeamLabel(k, side){
+  const name = k.resolve()[side];
+  return name ? `${SAT_FLAGS[name]||''} ${name}` : koSideLabel(k.id, side);
+}
+function cloudKeyKo(id){ return 'ko_'+id; }
+function pushKoToCloud(k){ if(window.AppCloud.push) window.AppCloud.push(cloudKeyKo(k.id), { sa:k.sa, sb:k.sb, locked:k.locked }); }
+
+function renderKnockout(){
+  const el=document.getElementById('ko-matches'); if(!el) return;
+  el.innerHTML='';
+  koMatches.forEach(k=>{
+    const filled = k.sa!==null && k.sb!==null;
+    const card=document.createElement('button');
+    card.className='entry-match clickable'+(k.locked?' locked':'');
+    const status = k.locked ? '🔒 Vastgezet' : (filled ? 'Tik om aan te passen' : 'Tik om in te voeren');
+    card.innerHTML=`
+      <div class="entry-match-meta">
+        <div class="entry-ronde">${k.label} · Veld ${k.veld}</div>
+        <div class="entry-time">${k.tijd}</div>
+      </div>
+      <div class="entry-teams-view">
+        <div class="entry-team">${koTeamLabel(k,0)}</div>
+        <div class="entry-scorebox ${filled?'':'empty'}">${filled?`${k.sa} – ${k.sb}`:'—'}</div>
+        <div class="entry-team right">${koTeamLabel(k,1)}</div>
+      </div>
+      <div class="entry-status">${status}</div>`;
+    card.onclick=()=>openEntryKo(k.id);
+    el.appendChild(card);
+  });
+}
+function openEntryKo(id){
+  const k=koById(id);
+  openMatchEntry({
+    match:k,
+    roundLabel:`${k.label} · ${k.tijd} · Veld ${k.veld}`,
+    teamA:koTeamLabel(k,0),
+    teamB:koTeamLabel(k,1),
+    onSave:(mm)=>{ saveSat(); pushKoToCloud(mm); },
+    rerender:()=>{ renderKnockout(); renderStandings(); }
+  });
+}
+function renderKnockoutSummary(){
+  const kf=document.getElementById('kruisfinales'); if(!kf) return;
+  const rows = koMatches.map(k=>{
+    const sc=(k.sa!==null&&k.sb!==null)?`${k.sa} – ${k.sb}`:'vs';
+    return `<div class="kf-row"><span class="kf-tag">${k.label} · ${k.tijd}</span> ${koTeamLabel(k,0)} <span class="kf-vs">${sc}</span> ${koTeamLabel(k,1)}</div>`;
+  }).join('');
+  const champ = koWinner('FIN');
+  const champLine = champ ? `<div class="kf-champ">🏆 Kampioen: ${SAT_FLAGS[champ]||''} ${champ}</div>` : '';
+  kf.innerHTML = `<div class="kf-title">Knock-out</div>${rows}${champLine}
+    <div class="kf-note">Kruisfinaleteams volgen uit de standen; finale en 3e/4e plaats uit de kruisfinale-uitslagen. Verandert live mee.</div>`;
+}
+
 /* ═══════════ CLOUD SYNC (centrale scores) ═══════════ */
 // Wordt gevuld door de Firebase-module onderaan de pagina.
 window.AppCloud = { push: null };
@@ -879,6 +1347,7 @@ function pushToCloud(round, gameIdx, m){
 function applyRemote(data){
   if (!data) return;
   let changed = false;
+  // Vrijdag
   state.rounds.forEach(r => r.matches.forEach(m => {
     const d = data[cloudKey(r.round, m.gameIdx)];
     if (d) {
@@ -888,12 +1357,35 @@ function applyRemote(data){
       changed = true;
     }
   }));
+  // Zaterdag
+  ['A','B'].forEach(p => satMatches[p].forEach((m,i) => {
+    const d = data[cloudKeySat(p,i)];
+    if (d) {
+      m.sa = (d.sa===undefined ? null : d.sa);
+      m.sb = (d.sb===undefined ? null : d.sb);
+      m.locked = !!d.locked;
+      changed = true;
+    }
+  }));
+  // Zaterdag knock-out
+  koMatches.forEach(k => {
+    const d = data[cloudKeyKo(k.id)];
+    if (d) {
+      k.sa = (d.sa===undefined ? null : d.sa);
+      k.sb = (d.sb===undefined ? null : d.sb);
+      k.locked = !!d.locked;
+      changed = true;
+    }
+  });
   if (!changed) return;
-  saveState();
+  saveState(); saveSat();
   recompute();
   renderGameButtons();
   renderResults();
   if (curGame !== null) showGame(curGame, true);
+  renderStandings();
+  renderSatPoule('A'); renderSatPoule('B');
+  renderKnockout();
 }
 window.applyRemote = applyRemote;
 
@@ -909,7 +1401,11 @@ window.setCloudStatus = setCloudStatus;
 function renderAll() { recompute(); renderGameButtons(); renderResults(); }
 
 loadState();
+loadSat();
 renderAll();
+renderSatPoule('A'); renderSatPoule('B');
+renderKnockout();
+renderStandings();
 </script>
 
 <!-- ══════════ CLOUD: FIREBASE FIRESTORE ══════════ -->
