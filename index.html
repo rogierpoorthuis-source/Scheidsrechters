@@ -1770,7 +1770,7 @@ if (firebaseConfig.projectId && firebaseConfig.projectId !== "PLAK_HIER") {
     // LET OP: dit adres moet EXACT overeenkomen met de gebruiker in Firebase.
     // Krijg je bij inloggen "invalid-email"? Dan heeft het account een domein nodig
     // (bijv. scheidsrechter@altius.nl) — pas dat dan hier én in Firebase aan.
-    const SCHEIDS_EMAIL = "scheidsrechter@altius";
+    const SCHEIDS_EMAIL = "scheidsrechter@altius.nl";
     window.RefAuth = {
       login: (pw) => signInWithEmailAndPassword(auth, SCHEIDS_EMAIL, pw),
       logout: () => signOut(auth)
