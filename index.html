@@ -231,6 +231,10 @@ body::before {
 .m-btn.confirm { background: var(--green); border-color: var(--green); color: #06210f; }
 .m-btn.confirm:active { filter: brightness(1.1); }
 .modal-hint { text-align:center; color:var(--muted); font-size:13px; line-height:1.5; margin-bottom:18px; }
+.sport-toggle { display:block; width:100%; margin-bottom:10px; background:var(--surface2); border:1px solid var(--border-subtle); color:var(--text); font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; padding:14px; border-radius:10px; cursor:pointer; transition:all .15s; }
+.sport-toggle::after { content:'  ○'; opacity:.45; }
+.sport-toggle.on { background:rgba(34,197,94,0.12); border-color:var(--green); color:var(--green); }
+.sport-toggle.on::after { content:'  ✓'; opacity:1; }
 
 /* ORG BANNER + FAB */
 .org-banner {
@@ -323,15 +327,51 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
 .kf-vs { color: var(--muted); font-size: 13px; }
 .kf-note { font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 12px; font-style: italic; }
 .kf-champ { font-family: 'Oswald', sans-serif; font-size: clamp(18px, 2.2vw, 26px); font-weight: 700; color: var(--accent2); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+/* BONDSCOACHES */
+#page-coach { display: none; }
+.coach-login-box { max-width: 360px; margin: 0 auto; text-align: center; }
+.coach-login-box .modal-score { margin-left: auto; margin-right: auto; }
+.coach-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+.coach-tab { flex: 1; background: var(--surface); border: 1px solid var(--border-subtle); color: var(--muted); font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 12px 6px; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.coach-tab.active { border-color: var(--accent); color: var(--accent-light); background: var(--accent-glow); }
+.roster-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .roster-grid { grid-template-columns: 1fr 1fr; } }
+.roster-card { background: var(--surface2); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; }
+.roster-team { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.roster-count { margin-left: auto; font-size: 11px; color: var(--muted); background: var(--bg); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1px 9px; font-family: 'Oswald', sans-serif; }
+.roster-list { margin: 0; padding-left: 22px; }
+.roster-list li { font-size: 13px; color: var(--text); padding: 3px 0; }
+.roster-cat { font-size: 10px; color: var(--accent2); font-family: 'Oswald', sans-serif; letter-spacing: 1px; margin-left: 4px; }
 @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 #page-game.visible { display: block; animation: fadeIn 0.25s ease; }
+.ref-login-overlay { display:flex; position:fixed; inset:0; z-index:9999; background:var(--bg); align-items:center; justify-content:center; padding:24px; }
+.ref-login-card { width:100%; max-width:360px; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:34px 26px; text-align:center; }
+.ref-login-card .rl-title { font-family:'Oswald',sans-serif; font-size:21px; font-weight:700; letter-spacing:.5px; }
+.ref-login-card .rl-sub { color:var(--muted); font-size:13px; line-height:1.5; margin:8px 0 22px; }
+.ref-login-card input { width:100%; max-width:220px; text-align:center; font-size:22px; }
 </style>
 </head>
 <body>
 
+<!-- INLOG SCHEIDSRECHTERS / ORGANISATIE -->
+<div id="refLogin" class="ref-login-overlay">
+  <div class="ref-login-card">
+    <div style="font-size:40px;line-height:1">🔒</div>
+    <div class="rl-title">Pupillenweekend</div>
+    <div class="rl-sub">Scheidsrechters &amp; organisatie<br>Log in om scores in te voeren.</div>
+    <input id="refPw" class="modal-score" type="password" placeholder="••••" autocomplete="current-password">
+    <div class="m-err" id="refErr" style="margin-top:10px">Onjuist wachtwoord.</div>
+    <div class="modal-actions" style="margin-top:18px;justify-content:center">
+      <button class="m-btn solid" style="flex:1;max-width:220px" onclick="refLogin()">Inloggen</button>
+    </div>
+  </div>
+</div>
+
 <!-- ORG BANNER -->
 <div id="orgBanner" class="org-banner">
   🔓 Organisatiemodus actief — je kunt vastgezette uitslagen aanpassen
+  <button onclick="exportExcel()">⬇️ Excel</button>
   <button onclick="exitOrg()">Afsluiten</button>
 </div>
 
@@ -453,7 +493,7 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
     <div class="rules-points">
       <div class="rules-point">O12/O13-spelers mogen niet op doel schieten en dus niet scoren</div>
       <div class="rules-point">Indribbelen én ingooien mag allebei</div>
-      <div class="rules-point">Gespeeld als 9×9 (voorstel: 8×8)</div>
+      <div class="rules-point">Gespeeld als 8×8</div>
       <div class="rules-point">Geen spelers van andere teams inzetten</div>
       <div class="rules-point">Bij spelerstekort door blessures: in overleg met de andere bondscoach een andere formatie</div>
       <div class="rules-point">Finale gelijk? Penalty's in volgorde: 1× O8/O9, 1× O10/O11, 1× O12/O13</div>
@@ -505,6 +545,38 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
   <div id="kruisfinales" class="kf-block"></div>
 </div>
 
+<!-- ══════════ BONDSCOACHES (alleen lezen, achter login) ══════════ -->
+<div id="page-coach" class="container">
+  <button class="back-btn" onclick="showLanding()">← Terug naar keuze</button>
+  <div class="hero">
+    <div class="hero-badge">👥 Bondscoaches</div>
+    <h1>Bonds<span>coaches</span></h1>
+    <p>Spelers, programma & wedstrijden — alleen lezen</p>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="coachLogin" class="coach-login-box panel">
+    <div class="panel-title gold">🔒 Bondscoach-login</div>
+    <p class="modal-hint">Voer het wachtwoord in om de spelersoverzichten te bekijken.</p>
+    <input id="coachPw" class="modal-score" type="password" placeholder="••••" style="font-size:22px;max-width:200px">
+    <div class="m-err" id="coachErr">Onjuist wachtwoord.</div>
+    <button class="m-btn solid" style="width:100%" onclick="coachLogin()">Inloggen</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="coachContent" style="display:none">
+    <div class="coach-tabs">
+      <button class="coach-tab active" id="ctab-spelers" onclick="coachSetTab('spelers')">Spelers</button>
+      <button class="coach-tab" id="ctab-vrijdag" onclick="coachSetTab('vrijdag')">Vrijdag</button>
+      <button class="coach-tab" id="ctab-zaterdag" onclick="coachSetTab('zaterdag')">Zaterdag</button>
+    </div>
+    <div id="coachBody"></div>
+    <button class="proj-entry" style="margin-top:22px" onclick="coachLogout()">Uitloggen</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <!-- ══════════ SCORE ENTRY MODAL ══════════ -->
 <div id="entryModal" class="modal-overlay" onclick="if(event.target===this)closeEntry()">
   <div class="modal">
@@ -543,6 +615,16 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
       <div class="m-locked-sub">Deze uitslag is bevestigd en kan niet meer worden aangepast.<br>Aanpassen kan alleen via de organisatie.</div>
       <div class="modal-actions">
         <button class="m-btn ghost" onclick="closeEntry()">Sluiten</button>
+      </div>
+    </div>
+
+    <!-- SPORTIVITEIT (alleen zaterdag) -->
+    <div id="mv-sport" style="display:none">
+      <div class="m-confirm-q" style="margin-top:0">Sportiviteitspunt toekennen?<br><span style="font-size:11px;opacity:.7">Voor de Anne Hidden-sportiviteitsprijs — tik de ploeg(en) aan die het verdienen.</span></div>
+      <button class="sport-toggle" id="sport-a" onclick="toggleSport('a')"></button>
+      <button class="sport-toggle" id="sport-b" onclick="toggleSport('b')"></button>
+      <div class="modal-actions" style="margin-top:16px">
+        <button class="m-btn solid" style="flex:1" onclick="sportSave()">Opslaan</button>
       </div>
     </div>
   </div>
@@ -934,12 +1016,153 @@ function hideAllPages() {
   document.getElementById('page-home').style.display='none';
   document.getElementById('page-saturday').style.display='none';
   document.getElementById('page-standings').style.display='none';
+  document.getElementById('page-coach').style.display='none';
   document.getElementById('page-game').classList.remove('visible');
 }
 function showLanding() { hideAllPages(); document.getElementById('page-landing').style.display='block'; window.scrollTo(0,0); }
 function showFriday()  { hideAllPages(); document.getElementById('page-home').style.display='block'; renderAll(); window.scrollTo(0,0); }
 function showSaturday(){ hideAllPages(); renderSatPoule('A'); renderSatPoule('B'); renderKnockout(); document.getElementById('page-saturday').style.display='block'; window.scrollTo(0,0); }
 function showStandings(){ hideAllPages(); renderStandings(); document.getElementById('page-standings').style.display='block'; window.scrollTo(0,0); }
+function showCoach(){ hideAllPages(); document.getElementById('page-coach').style.display='block'; updateCoachView(); window.scrollTo(0,0); }
+
+/* ═══════════ BONDSCOACHES (alleen lezen) ═══════════ */
+let coachLoggedIn = false;
+let coachTab = 'spelers';
+let rosters = null;
+
+window.onCoachAuth = function(loggedIn){
+  coachLoggedIn = loggedIn;
+  if (document.getElementById('page-coach').style.display === 'block') updateCoachView();
+};
+
+function coachLogin(){
+  const pw = document.getElementById('coachPw').value;
+  const err = document.getElementById('coachErr');
+  err.classList.remove('show');
+  if (!window.CoachCloud || !window.CoachCloud.login) {
+    err.textContent = 'Cloud niet beschikbaar — staat de app online?'; err.classList.add('show'); return;
+  }
+  window.CoachCloud.login(pw).catch(() => {
+    err.textContent = 'Onjuist wachtwoord.'; err.classList.add('show');
+  });
+}
+function coachLogout(){ if (window.CoachCloud) window.CoachCloud.logout(); rosters = null; }
+
+function updateCoachView(){
+  const loginBox = document.getElementById('coachLogin');
+  const content = document.getElementById('coachContent');
+  if (coachLoggedIn) {
+    loginBox.style.display = 'none';
+    content.style.display = 'block';
+    if (rosters === null && window.CoachCloud) {
+      window.CoachCloud.fetchRosters()
+        .then(d => { rosters = d || {}; renderCoachTab(); })
+        .catch(() => { rosters = {}; renderCoachTab(); });
+    } else {
+      renderCoachTab();
+    }
+  } else {
+    loginBox.style.display = 'block';
+    content.style.display = 'none';
+    const pw = document.getElementById('coachPw'); if (pw) pw.value = '';
+  }
+}
+
+function coachSetTab(t){ coachTab = t; renderCoachTab(); }
+
+function renderCoachTab(){
+  ['spelers','vrijdag','zaterdag'].forEach(t => {
+    const b = document.getElementById('ctab-'+t); if (b) b.classList.toggle('active', t===coachTab);
+  });
+  const body = document.getElementById('coachBody'); if (!body) return;
+  if (coachTab === 'spelers') body.innerHTML = coachSpelersHTML();
+  else if (coachTab === 'vrijdag') body.innerHTML = coachVrijdagHTML();
+  else body.innerHTML = coachZaterdagHTML();
+}
+
+function coachSpelersHTML(){
+  let h = '<button class="proj-entry" style="margin-top:0;margin-bottom:16px" onclick="coachImportClick()">⬆️ Spelers importeren uit Excel</button>'
+        + '<input id="coachFile" type="file" accept=".xlsx,.xls" style="display:none" onchange="coachFileChosen(event)">';
+  if (!rosters || Object.keys(rosters).length === 0) {
+    h += '<div class="rules-placeholder"><div class="rules-placeholder-icon">👥</div><div class="rules-placeholder-title">Nog geen spelers</div><div class="rules-placeholder-sub">Importeer een Excel met kolommen <b>Team</b> en <b>Speler</b> (optioneel <b>Categorie</b>).</div></div>';
+    return h;
+  }
+  h += '<div class="roster-grid">';
+  Object.keys(rosters).sort().forEach(team => {
+    const players = rosters[team] || [];
+    h += `<div class="roster-card"><div class="roster-team">${SAT_FLAGS[team]||''} ${team} <span class="roster-count">${players.length}</span></div><ol class="roster-list">`;
+    players.forEach(p => {
+      const naam = (p && (p.naam || p.name)) || p;
+      const cat = (p && p.cat) ? `<span class="roster-cat">${p.cat}</span>` : '';
+      h += `<li>${naam}${cat}</li>`;
+    });
+    h += '</ol></div>';
+  });
+  h += '</div>';
+  return h;
+}
+
+function coachVrijdagHTML(){
+  let h = '';
+  state.rounds.forEach(r => {
+    h += `<div class="results-round"><div class="results-round-header">Ronde ${r.round} <span class="r-time">${r.time}</span></div>`;
+    r.matches.forEach(m => {
+      const a = player(m.a), b = player(m.b);
+      const done = m.sa!==null && m.sb!==null;
+      const sc = done ? `${m.sa} – ${m.sb}` : 'vs';
+      h += `<div class="result-row"><div class="result-team">${a.flag} ${a.name}</div><div class="result-score ${done?'':'pending'}">${sc}</div><div class="result-team right">${b.flag} ${b.name}</div><div class="result-game-tag">${GAMES[m.gameIdx]}</div></div>`;
+    });
+    h += '</div>';
+  });
+  return h;
+}
+
+function coachZaterdagHTML(){
+  let h = '<button class="proj-entry" style="margin-top:0;margin-bottom:16px" onclick="showStandings()">📊 Bekijk de standen</button>';
+  ['A','B'].forEach(p => {
+    h += `<div class="results-round-header" style="margin-top:8px">Poule ${p}</div>`;
+    satMatches[p].forEach(m => {
+      const done = m.sa!==null && m.sb!==null;
+      const sc = done ? `${m.sa} – ${m.sb}` : 'vs';
+      h += `<div class="result-row"><div class="result-team">${SAT_FLAGS[m.a]||''} ${m.a}</div><div class="result-score ${done?'':'pending'}">${sc}</div><div class="result-team right">${SAT_FLAGS[m.b]||''} ${m.b}</div><div class="result-game-tag">R${m.r} · ${m.veld}</div></div>`;
+    });
+  });
+  h += '<div class="results-round-header" style="margin-top:8px">Knock-out</div>';
+  koMatches.forEach(k => {
+    const done = k.sa!==null && k.sb!==null;
+    const sc = done ? `${k.sa} – ${k.sb}` : 'vs';
+    h += `<div class="result-row"><div class="result-team">${koTeamLabel(k,0)}</div><div class="result-score ${done?'':'pending'}">${sc}</div><div class="result-team right">${koTeamLabel(k,1)}</div><div class="result-game-tag">${k.label}</div></div>`;
+  });
+  return h;
+}
+
+function coachImportClick(){ document.getElementById('coachFile').click(); }
+function coachFileChosen(ev){
+  const file = ev.target.files[0]; if (!file) return;
+  if (typeof XLSX === 'undefined') { alert('Excel-bibliotheek nog niet geladen — probeer het zo nog eens.'); return; }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const wb = XLSX.read(e.target.result, { type:'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { defval:'' });
+      const out = {};
+      rows.forEach(r => {
+        const team = String(r.Team||r.team||r.Land||r.land||'').trim();
+        const naam = String(r.Speler||r.speler||r.Naam||r.naam||r.Player||r.player||'').trim();
+        const cat  = String(r.Categorie||r.categorie||r.Cat||r.cat||r.Leeftijd||r.leeftijd||'').trim();
+        if (!team || !naam) return;
+        (out[team] = out[team] || []).push(cat ? { naam, cat } : { naam });
+      });
+      if (Object.keys(out).length === 0) { alert('Geen geldige rijen gevonden. Verwacht kolommen: Team, Speler (optioneel Categorie).'); return; }
+      window.CoachCloud.saveRosters(out)
+        .then(() => { rosters = out; renderCoachTab(); alert('Geïmporteerd: ' + Object.keys(out).length + ' teams.'); })
+        .catch(err => { alert('Opslaan mislukt. Ben je ingelogd en kloppen de Firestore-regels? ' + err); });
+    } catch (err) { alert('Kon het Excel-bestand niet lezen: ' + err); }
+  };
+  reader.readAsArrayBuffer(file);
+  ev.target.value = '';
+}
 
 function toggleFullscreen() {
   try {
@@ -954,7 +1177,7 @@ function toggleFullscreen() {
 
 /* ═══════════ SCORE-INVOER MODAL ═══════════ */
 function showModalView(v) {
-  ['input','confirm','locked'].forEach(x=>{
+  ['input','confirm','locked','sport'].forEach(x=>{
     document.getElementById('mv-'+x).style.display = (x===v)?'block':'none';
   });
 }
@@ -1022,6 +1245,30 @@ function entryConfirm() {
   m.sa = +document.getElementById('m-sa').value;
   m.sb = +document.getElementById('m-sb').value;
   m.locked = true;
+  if (cur.askSport) { showSportStep(); return; } // opslaan gebeurt na de sportiviteitsstap
+  const onSave = cur.onSave, rerender = cur.rerender;
+  if (onSave) onSave(m);
+  closeEntry();
+  if (rerender) rerender();
+}
+
+let sportTmp = { a:false, b:false };
+function showSportStep() {
+  const m = cur.match;
+  sportTmp = { a: !!m.spA, b: !!m.spB };
+  document.getElementById('sport-a').innerHTML = '🤝 ' + cur.teamA;
+  document.getElementById('sport-b').innerHTML = '🤝 ' + cur.teamB;
+  updateSportButtons();
+  showModalView('sport');
+}
+function toggleSport(side) { sportTmp[side] = !sportTmp[side]; updateSportButtons(); }
+function updateSportButtons() {
+  document.getElementById('sport-a').classList.toggle('on', sportTmp.a);
+  document.getElementById('sport-b').classList.toggle('on', sportTmp.b);
+}
+function sportSave() {
+  const m = cur.match;
+  m.spA = sportTmp.a; m.spB = sportTmp.b;
   const onSave = cur.onSave, rerender = cur.rerender;
   if (onSave) onSave(m);
   closeEntry();
@@ -1060,6 +1307,61 @@ function exitOrg() {
   document.getElementById('orgFab').textContent='🔐';
 }
 document.getElementById('pinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPin(); });
+document.getElementById('coachPw').addEventListener('keydown', e=>{ if(e.key==='Enter') coachLogin(); });
+
+/* ═══════════ EXCEL-EXPORT (organisatie) ═══════════ */
+function exportExcel(){
+  if(typeof XLSX==='undefined'){ alert('Excel-bibliotheek nog niet geladen — even opnieuw proberen.'); return; }
+  const nv=x=>(x===null||x===undefined)?'':x;
+  const wb=XLSX.utils.book_new();
+  // Tabblad Vrijdag
+  const fri=[['Ronde','Tijd','Spel','Team 1','Team 2','Score 1','Score 2']];
+  state.rounds.forEach(r=>r.matches.forEach(m=>{ const a=player(m.a),b=player(m.b);
+    fri.push([r.round,r.time,GAMES[m.gameIdx],a.name,b.name,nv(m.sa),nv(m.sb)]); }));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(fri),'Vrijdag');
+  // Tabblad Zaterdag
+  const zat=[['Onderdeel','Ronde/Fase','Tijd','Veld','Team 1','Team 2','Score 1','Score 2','Sport 1','Sport 2']];
+  ['A','B'].forEach(p=>satMatches[p].forEach(m=>{
+    zat.push(['Poule '+p,'R'+m.r,m.tijd,m.veld,m.a,m.b,nv(m.sa),nv(m.sb),m.spA?1:0,m.spB?1:0]); }));
+  koMatches.forEach(k=>{ const r=k.resolve();
+    zat.push([k.label,'',k.tijd,k.veld,r[0]||koSideLabel(k.id,0),r[1]||koSideLabel(k.id,1),nv(k.sa),nv(k.sb),k.spA?1:0,k.spB?1:0]); });
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(zat),'Zaterdag');
+  // Tabblad Sportiviteit (totaal per team)
+  const cnt={};
+  ['A','B'].forEach(p=>satMatches[p].forEach(m=>{ if(m.spA)cnt[m.a]=(cnt[m.a]||0)+1; if(m.spB)cnt[m.b]=(cnt[m.b]||0)+1; }));
+  koMatches.forEach(k=>{ const r=k.resolve(); if(k.spA&&r[0])cnt[r[0]]=(cnt[r[0]]||0)+1; if(k.spB&&r[1])cnt[r[1]]=(cnt[r[1]]||0)+1; });
+  const sp=[['Team','Sportiviteitspunten']];
+  Object.keys(cnt).sort((x,y)=>cnt[y]-cnt[x]||x.localeCompare(y)).forEach(t=>sp.push([t,cnt[t]]));
+  if(sp.length===1) sp.push(['(nog geen punten toegekend)','']);
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sp),'Sportiviteit');
+  const d=new Date(), z=n=>('0'+n).slice(-2);
+  XLSX.writeFile(wb,'pupillenweekend-scores-'+d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+'-'+z(d.getHours())+z(d.getMinutes())+'.xlsx');
+}
+
+/* ═══════════ INLOG SCHEIDSRECHTERS / ORGANISATIE ═══════════ */
+window.onRefAuth = function(loggedIn){
+  const ov = document.getElementById('refLogin');
+  if (!ov) return;
+  ov.style.display = loggedIn ? 'none' : 'flex';
+  if (!loggedIn) { const f = document.getElementById('refPw'); if (f) f.value = ''; }
+};
+function refLogin(){
+  const err = document.getElementById('refErr'); err.classList.remove('show');
+  const pw = document.getElementById('refPw').value;
+  if (!pw) { err.textContent = 'Vul het wachtwoord in.'; err.classList.add('show'); return; }
+  if (!window.RefAuth || !window.RefAuth.login) {
+    err.textContent = 'App laadt nog of cloud onbereikbaar — probeer het zo nog eens.'; err.classList.add('show'); return;
+  }
+  window.RefAuth.login(pw).catch(e => {
+    const code = (e && e.code) || '';
+    err.textContent = code.includes('invalid-email')
+      ? 'Account-adres klopt niet — neem contact op met de organisatie.'
+      : 'Onjuist wachtwoord.';
+    err.classList.add('show');
+  });
+}
+function refLogout(){ if (window.RefAuth) window.RefAuth.logout(); }
+document.getElementById('refPw').addEventListener('keydown', e=>{ if(e.key==='Enter') refLogin(); });
 
 /* ═══════════ ZATERDAG — VOETBALTOERNOOI ═══════════ */
 const SAT_FLAGS = {
@@ -1136,17 +1438,17 @@ const SAT_RAW = {
   ]
 };
 const satMatches = {
-  A: SAT_RAW.A.map(x => ({ r:x[0], veld:x[1], tijd:x[2], scheids:x[3], a:x[4], b:x[5], sa:null, sb:null, locked:false })),
-  B: SAT_RAW.B.map(x => ({ r:x[0], veld:x[1], tijd:x[2], scheids:x[3], a:x[4], b:x[5], sa:null, sb:null, locked:false }))
+  A: SAT_RAW.A.map(x => ({ r:x[0], veld:x[1], tijd:x[2], scheids:x[3], a:x[4], b:x[5], sa:null, sb:null, locked:false, spA:false, spB:false })),
+  B: SAT_RAW.B.map(x => ({ r:x[0], veld:x[1], tijd:x[2], scheids:x[3], a:x[4], b:x[5], sa:null, sb:null, locked:false, spA:false, spB:false }))
 };
 
 /* Persistentie zaterdag (per apparaat) */
 const SAT_STORAGE_KEY = "altius_zaterdag_v1";
 function saveSat() {
   try {
-    const d = { A: satMatches.A.map(m=>({sa:m.sa,sb:m.sb,locked:m.locked})),
-                B: satMatches.B.map(m=>({sa:m.sa,sb:m.sb,locked:m.locked})),
-                KO: koMatches.map(k=>({id:k.id,sa:k.sa,sb:k.sb,locked:k.locked})) };
+    const d = { A: satMatches.A.map(m=>({sa:m.sa,sb:m.sb,locked:m.locked,spA:m.spA,spB:m.spB})),
+                B: satMatches.B.map(m=>({sa:m.sa,sb:m.sb,locked:m.locked,spA:m.spA,spB:m.spB})),
+                KO: koMatches.map(k=>({id:k.id,sa:k.sa,sb:k.sb,locked:k.locked,spA:k.spA,spB:k.spB})) };
     localStorage.setItem(SAT_STORAGE_KEY, JSON.stringify(d));
   } catch(e) {}
 }
@@ -1155,14 +1457,14 @@ function loadSat() {
     const raw = localStorage.getItem(SAT_STORAGE_KEY); if(!raw) return;
     const d = JSON.parse(raw);
     ['A','B'].forEach(p => satMatches[p].forEach((m,i) => {
-      const s = d?.[p]?.[i]; if(s){ m.sa=s.sa; m.sb=s.sb; m.locked=!!s.locked; }
+      const s = d?.[p]?.[i]; if(s){ m.sa=s.sa; m.sb=s.sb; m.locked=!!s.locked; m.spA=!!s.spA; m.spB=!!s.spB; }
     }));
-    if (d?.KO) d.KO.forEach(s => { const k=koById(s.id); if(k){ k.sa=s.sa; k.sb=s.sb; k.locked=!!s.locked; } });
+    if (d?.KO) d.KO.forEach(s => { const k=koById(s.id); if(k){ k.sa=s.sa; k.sb=s.sb; k.locked=!!s.locked; k.spA=!!s.spA; k.spB=!!s.spB; } });
   } catch(e) {}
 }
 function cloudKeySat(p, i){ return 'zat'+p+'_'+i; }
 function pushSatToCloud(p, i, m){
-  if (window.AppCloud.push) window.AppCloud.push(cloudKeySat(p,i), { sa:m.sa, sb:m.sb, locked:m.locked });
+  if (window.AppCloud.push) window.AppCloud.push(cloudKeySat(p,i), { sa:m.sa, sb:m.sb, locked:m.locked, spA:!!m.spA, spB:!!m.spB });
 }
 
 /* Standen berekenen (3 punten winst, 1 gelijk; sortering: punten, saldo, voor) */
@@ -1224,6 +1526,7 @@ function openEntrySat(p, i){
     roundLabel: `Poule ${p} · Ronde ${m.r} · ${m.tijd} · Veld ${m.veld}`,
     teamA: `${SAT_FLAGS[m.a]||''} ${m.a}`,
     teamB: `${SAT_FLAGS[m.b]||''} ${m.b}`,
+    askSport: true,
     onSave: (mm) => { saveSat(); pushSatToCloud(p, i, mm); },
     rerender: () => { renderSatPoule(p); renderStandings(); }
   });
@@ -1268,7 +1571,7 @@ const KO = [
   { id:'P34', label:'Om 3e/4e plaats', veld:'2A', tijd:'13:15', resolve:()=>[koLoser('KF1'), koLoser('KF2')] },
   { id:'FIN', label:'Finale', veld:'2A', tijd:'13:30', resolve:()=>[koWinner('KF1'), koWinner('KF2')] }
 ];
-const koMatches = KO.map(k => ({ id:k.id, label:k.label, veld:k.veld, tijd:k.tijd, resolve:k.resolve, sa:null, sb:null, locked:false }));
+const koMatches = KO.map(k => ({ id:k.id, label:k.label, veld:k.veld, tijd:k.tijd, resolve:k.resolve, sa:null, sb:null, locked:false, spA:false, spB:false }));
 
 function koById(id){ return koMatches.find(k=>k.id===id); }
 function koWinner(id){ const k=koById(id); const [a,b]=k.resolve(); if(k.sa==null||k.sb==null||k.sa===k.sb) return null; return k.sa>k.sb?a:b; }
@@ -1283,7 +1586,7 @@ function koTeamLabel(k, side){
   return name ? `${SAT_FLAGS[name]||''} ${name}` : koSideLabel(k.id, side);
 }
 function cloudKeyKo(id){ return 'ko_'+id; }
-function pushKoToCloud(k){ if(window.AppCloud.push) window.AppCloud.push(cloudKeyKo(k.id), { sa:k.sa, sb:k.sb, locked:k.locked }); }
+function pushKoToCloud(k){ if(window.AppCloud.push) window.AppCloud.push(cloudKeyKo(k.id), { sa:k.sa, sb:k.sb, locked:k.locked, spA:!!k.spA, spB:!!k.spB }); }
 
 function renderKnockout(){
   const el=document.getElementById('ko-matches'); if(!el) return;
@@ -1315,6 +1618,7 @@ function openEntryKo(id){
     roundLabel:`${k.label} · ${k.tijd} · Veld ${k.veld}`,
     teamA:koTeamLabel(k,0),
     teamB:koTeamLabel(k,1),
+    askSport: true,
     onSave:(mm)=>{ saveSat(); pushKoToCloud(mm); },
     rerender:()=>{ renderKnockout(); renderStandings(); }
   });
@@ -1364,6 +1668,7 @@ function applyRemote(data){
       m.sa = (d.sa===undefined ? null : d.sa);
       m.sb = (d.sb===undefined ? null : d.sb);
       m.locked = !!d.locked;
+      m.spA = !!d.spA; m.spB = !!d.spB;
       changed = true;
     }
   }));
@@ -1374,6 +1679,7 @@ function applyRemote(data){
       k.sa = (d.sa===undefined ? null : d.sa);
       k.sb = (d.sb===undefined ? null : d.sb);
       k.locked = !!d.locked;
+      k.spA = !!d.spA; k.spB = !!d.spB;
       changed = true;
     }
   });
@@ -1386,6 +1692,10 @@ function applyRemote(data){
   renderStandings();
   renderSatPoule('A'); renderSatPoule('B');
   renderKnockout();
+  if (typeof coachLoggedIn !== 'undefined' && coachLoggedIn &&
+      document.getElementById('page-coach').style.display === 'block') {
+    renderCoachTab();
+  }
 }
 window.applyRemote = applyRemote;
 
@@ -1412,7 +1722,8 @@ renderStandings();
 <!-- Zonder geldige config blijft de app gewoon lokaal draaien. -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 /* ─────────────────────────────────────────────────────────────
    PLAK HIER JE EIGEN FIREBASE-CONFIG
@@ -1454,13 +1765,27 @@ if (firebaseConfig.projectId && firebaseConfig.projectId !== "PLAK_HIER") {
       catch (e) { console.error("Firestore schrijffout:", e); }
     };
 
+    // ── Inlog scheidsrechters/organisatie (Firebase Authentication) ──
+    const auth = getAuth(app);
+    // LET OP: dit adres moet EXACT overeenkomen met de gebruiker in Firebase.
+    // Krijg je bij inloggen "invalid-email"? Dan heeft het account een domein nodig
+    // (bijv. scheidsrechter@altius.nl) — pas dat dan hier én in Firebase aan.
+    const SCHEIDS_EMAIL = "scheidsrechter@altius";
+    window.RefAuth = {
+      login: (pw) => signInWithEmailAndPassword(auth, SCHEIDS_EMAIL, pw),
+      logout: () => signOut(auth)
+    };
+    onAuthStateChanged(auth, (user) => { if (window.onRefAuth) window.onRefAuth(!!user); });
+
     console.log("Firebase geinitialiseerd.");
   } catch (e) {
     console.error("Firebase-init mislukt - app draait lokaal verder.", e);
     window.setCloudStatus("Lokaal - cloud niet bereikbaar", "offline");
+    if (window.onRefAuth) window.onRefAuth(true); // fail-safe: cloud onbereikbaar => app niet op slot
   }
 } else {
   console.log("Geen Firebase-config ingevuld - app draait lokaal.");
+  if (window.onRefAuth) window.onRefAuth(true);
 }
 </script>
 
