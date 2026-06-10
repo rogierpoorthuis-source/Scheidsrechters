@@ -394,9 +394,10 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
       <div class="choice-icon">⚽</div>
       <div class="choice-day">Zaterdag</div>
       <div class="choice-name">Voetbaltoernooi</div>
-      <div class="choice-sub">Programma volgt</div>
+      <div class="choice-sub">2 poules · knock-out & plaatsing</div>
     </button>
   </div>
+  <button class="proj-entry" onclick="showRefSched()" style="margin-bottom:10px">👨‍⚖️ Programma per scheidsrechter</button>
   <button class="proj-entry" onclick="showStandings()">📺 Standen voor groot scherm (organisatie)</button>
 </div>
 
@@ -485,7 +486,8 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
     <p>Scheidsrechter — Scores invoeren</p>
   </div>
 
-  <button class="proj-entry" onclick="showStandings()" style="margin-top:0;margin-bottom:20px">📊 Bekijk de standen (groot scherm)</button>
+  <button class="proj-entry" onclick="showStandings()" style="margin-top:0;margin-bottom:10px">📊 Bekijk de standen (groot scherm)</button>
+  <button class="proj-entry" onclick="showRefSched()" style="margin-top:0;margin-bottom:20px">👨‍⚖️ Programma per scheidsrechter</button>
 
   <!-- SPELREGELS -->
   <div class="panel">
@@ -535,6 +537,17 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
 </div>
 
 <!-- ══════════ STANDEN — GROOT SCHERM (organisatie) ══════════ -->
+<!-- ══════════ PROGRAMMA PER SCHEIDSRECHTER ══════════ -->
+<div id="page-refsched" class="container">
+  <button class="back-btn" onclick="refSchedBack()">← Terug</button>
+  <div class="hero">
+    <div class="hero-badge">👨‍⚖️ Scheidsrechters · Zaterdag</div>
+    <h1 id="refSchedTitle">Scheids<span>rechters</span></h1>
+    <p id="refSchedSub">Tik op een naam voor het eigen programma</p>
+  </div>
+  <div id="refSchedBody"></div>
+</div>
+
 <div id="page-standings" class="container proj">
   <button class="back-btn proj-back" onclick="showLanding()">← Terug naar keuze</button>
   <div class="proj-header">
@@ -741,93 +754,93 @@ const TEAMS = [
 // Eén spel staat elke ronde leeg (gewoon weglaten).
 const SCHEDULE = [
   { round:1, time:"19:15 – 19:29", matches:{
-    "Gaten schieten":["Brazilië","Engeland"],
+    "Gaten schieten":["Brazilië","Portugal"],
     "Wereldbal parcours":["Argentinië","Nederland"],
-    "Kussengevecht":["Mexico","Marokko"],
-    "Beat the keeper":["Japan","Curaçao"],
+    "Kussengevecht":["Curaçao","Marokko"],
+    "Beat the keeper":["Japan","Mexico"],
     "Stormbaan estafette":["Saoedi-Arabië","Spanje"],
-    "Dribbel + snelheid":["Australië","Portugal"],
+    "Dribbel + snelheid":["Australië","Engeland"],
     "Brandweervoetbal":["V.S.","Frankrijk"],
     "Fotomoment":["Duitsland","Zweden"]
   }},
   { round:2, time:"19:33 – 19:47", pauseAfter:"Pauze · 19:47 – 19:59", matches:{
     "Gaten schieten":["Duitsland","Spanje"],
-    "Wereldbal parcours":["Engeland","Marokko"],
+    "Wereldbal parcours":["Portugal","Marokko"],
     "Kussengevecht":["Japan","Argentinië"],
     "Beat the keeper":["Nederland","Frankrijk"],
     "Stormbaan estafette":["Australië","Brazilië"],
-    "Dribbel + snelheid":["V.S.","Mexico"],
-    "Pannavoetbal":["Portugal","Zweden"],
-    "Brandweervoetbal":["Saoedi-Arabië","Curaçao"]
+    "Dribbel + snelheid":["V.S.","Curaçao"],
+    "Pannavoetbal":["Engeland","Zweden"],
+    "Brandweervoetbal":["Saoedi-Arabië","Mexico"]
   }},
   { round:3, time:"19:59 – 20:13", matches:{
     "Gaten schieten":["Nederland","Australië"],
-    "Wereldbal parcours":["Portugal","Spanje"],
-    "Kussengevecht":["Engeland","Saoedi-Arabië"],
+    "Wereldbal parcours":["Engeland","Spanje"],
+    "Kussengevecht":["Portugal","Saoedi-Arabië"],
     "Beat the keeper":["Argentinië","V.S."],
-    "Stormbaan estafette":["Zweden","Mexico"],
+    "Stormbaan estafette":["Zweden","Curaçao"],
     "Dribbel + snelheid":["Brazilië","Japan"],
-    "Pannavoetbal":["Duitsland","Curaçao"],
+    "Pannavoetbal":["Duitsland","Mexico"],
     "Fotomoment":["Marokko","Frankrijk"]
   }},
   { round:4, time:"20:17 – 20:31", pauseAfter:"Pauze · 20:31 – 20:43", matches:{
-    "Gaten schieten":["Portugal","Frankrijk"],
+    "Gaten schieten":["Engeland","Frankrijk"],
     "Wereldbal parcours":["V.S.","Japan"],
     "Beat the keeper":["Zweden","Spanje"],
-    "Stormbaan estafette":["Curaçao","Engeland"],
+    "Stormbaan estafette":["Mexico","Portugal"],
     "Dribbel + snelheid":["Duitsland","Nederland"],
-    "Pannavoetbal":["Saoedi-Arabië","Mexico"],
+    "Pannavoetbal":["Saoedi-Arabië","Curaçao"],
     "Brandweervoetbal":["Australië","Marokko"],
     "Fotomoment":["Brazilië","Argentinië"]
   }},
   { round:5, time:"20:43 – 20:57", matches:{
     "Gaten schieten":["Saoedi-Arabië","V.S."],
-    "Kussengevecht":["Curaçao","Portugal"],
-    "Beat the keeper":["Engeland","Australië"],
+    "Kussengevecht":["Mexico","Engeland"],
+    "Beat the keeper":["Portugal","Australië"],
     "Stormbaan estafette":["Frankrijk","Argentinië"],
     "Dribbel + snelheid":["Zweden","Marokko"],
     "Pannavoetbal":["Spanje","Japan"],
     "Brandweervoetbal":["Duitsland","Brazilië"],
-    "Fotomoment":["Nederland","Mexico"]
+    "Fotomoment":["Nederland","Curaçao"]
   }},
   { round:6, time:"21:01 – 21:15", pauseAfter:"Pauze · 21:15 – 21:27", matches:{
-    "Gaten schieten":["Curaçao","Zweden"],
+    "Gaten schieten":["Mexico","Zweden"],
     "Wereldbal parcours":["Saoedi-Arabië","Duitsland"],
     "Kussengevecht":["Frankrijk","Brazilië"],
-    "Beat the keeper":["Portugal","Mexico"],
+    "Beat the keeper":["Engeland","Curaçao"],
     "Stormbaan estafette":["Marokko","V.S."],
-    "Pannavoetbal":["Engeland","Argentinië"],
+    "Pannavoetbal":["Portugal","Argentinië"],
     "Brandweervoetbal":["Nederland","Japan"],
     "Fotomoment":["Australië","Spanje"]
   }},
   { round:7, time:"21:27 – 21:41", matches:{
-    "Gaten schieten":["Japan","Mexico"],
+    "Gaten schieten":["Japan","Curaçao"],
     "Wereldbal parcours":["Frankrijk","Zweden"],
     "Kussengevecht":["Australië","Duitsland"],
     "Beat the keeper":["Saoedi-Arabië","Brazilië"],
-    "Dribbel + snelheid":["Engeland","Spanje"],
+    "Dribbel + snelheid":["Portugal","Spanje"],
     "Pannavoetbal":["Marokko","Nederland"],
-    "Brandweervoetbal":["Portugal","Argentinië"],
-    "Fotomoment":["Curaçao","V.S."]
+    "Brandweervoetbal":["Engeland","Argentinië"],
+    "Fotomoment":["Mexico","V.S."]
   }},
   { round:8, time:"21:45 – 21:59", matches:{
     "Gaten schieten":["Marokko","Argentinië"],
-    "Wereldbal parcours":["Australië","Curaçao"],
+    "Wereldbal parcours":["Australië","Mexico"],
     "Kussengevecht":["Zweden","Nederland"],
     "Stormbaan estafette":["Duitsland","Japan"],
     "Dribbel + snelheid":["Saoedi-Arabië","Frankrijk"],
     "Pannavoetbal":["V.S.","Brazilië"],
-    "Brandweervoetbal":["Mexico","Spanje"],
-    "Fotomoment":["Portugal","Engeland"]
+    "Brandweervoetbal":["Curaçao","Spanje"],
+    "Fotomoment":["Engeland","Portugal"]
   }},
   { round:9, time:"22:03 – 22:17", matches:{
-    "Wereldbal parcours":["Mexico","Brazilië"],
+    "Wereldbal parcours":["Curaçao","Brazilië"],
     "Kussengevecht":["Spanje","V.S."],
     "Beat the keeper":["Duitsland","Marokko"],
-    "Stormbaan estafette":["Nederland","Portugal"],
-    "Dribbel + snelheid":["Argentinië","Curaçao"],
+    "Stormbaan estafette":["Nederland","Engeland"],
+    "Dribbel + snelheid":["Argentinië","Mexico"],
     "Pannavoetbal":["Frankrijk","Australië"],
-    "Brandweervoetbal":["Zweden","Engeland"],
+    "Brandweervoetbal":["Zweden","Portugal"],
     "Fotomoment":["Saoedi-Arabië","Japan"]
   }}
 ];
@@ -1016,6 +1029,7 @@ function hideAllPages() {
   document.getElementById('page-home').style.display='none';
   document.getElementById('page-saturday').style.display='none';
   document.getElementById('page-standings').style.display='none';
+  document.getElementById('page-refsched').style.display='none';
   document.getElementById('page-coach').style.display='none';
   document.getElementById('page-game').classList.remove('visible');
 }
@@ -1023,6 +1037,65 @@ function showLanding() { hideAllPages(); document.getElementById('page-landing')
 function showFriday()  { hideAllPages(); document.getElementById('page-home').style.display='block'; renderAll(); window.scrollTo(0,0); }
 function showSaturday(){ hideAllPages(); renderSatPoule('A'); renderSatPoule('B'); renderKnockout(); document.getElementById('page-saturday').style.display='block'; window.scrollTo(0,0); }
 function showStandings(){ hideAllPages(); renderStandings(); document.getElementById('page-standings').style.display='block'; window.scrollTo(0,0); }
+
+/* ═══════════ PROGRAMMA PER SCHEIDSRECHTER ═══════════ */
+let refSel=null;
+function refTimeKey(t){ const m=String(t).split('-')[0].trim().match(/(\d{1,2})[.:](\d{2})/); return m?(+m[1]*60 + +m[2]):9999; }
+function buildRefSchedule(){
+  const map={};
+  const add=(ref,item)=>{ if(!ref)return; (map[ref]=map[ref]||[]).push(item); };
+  ['A','B'].forEach(p=>satMatches[p].forEach(m=>{
+    add(m.scheids,{ key:refTimeKey(m.tijd), tijd:m.tijd, veld:m.veld, fase:'Poule '+p+' · ronde '+m.r,
+      a:(SAT_FLAGS[m.a]||'')+' '+m.a, b:(SAT_FLAGS[m.b]||'')+' '+m.b });
+  }));
+  koMatches.forEach(k=>{
+    add(k.scheids,{ key:refTimeKey(k.tijd), tijd:k.tijd, veld:k.veld, fase:k.label,
+      a:koTeamLabel(k,0), b:koTeamLabel(k,1) });
+  });
+  Object.values(map).forEach(arr=>arr.sort((x,y)=>x.key-y.key));
+  return map;
+}
+function showRefSched(){ hideAllPages(); refSel=null; renderRefSched(); document.getElementById('page-refsched').style.display='block'; window.scrollTo(0,0); }
+function refSchedBack(){ if(refSel){ refSel=null; renderRefSched(); window.scrollTo(0,0); } else { showLanding(); } }
+function openRefProgram(name){ refSel=name; renderRefSched(); window.scrollTo(0,0); }
+function renderRefSched(){
+  const map=buildRefSchedule();
+  const el=document.getElementById('refSchedBody'); if(!el) return;
+  const title=document.getElementById('refSchedTitle'), sub=document.getElementById('refSchedSub');
+  if(!refSel){
+    title.textContent='Programma per scheidsrechter';
+    sub.textContent='Tik op een naam voor het eigen programma';
+    const names=Object.keys(map).sort((a,b)=>a.localeCompare(b,'nl'));
+    let h='<div class="games-grid">';
+    names.forEach(n=>{
+      h+='<button class="game-btn" onclick="openRefProgram(\''+n.replace(/\x27/g,"\\\x27")+'\')">'
+        +'<div class="game-icon">👨‍⚖️</div>'
+        +'<div class="game-btn-name">'+n+'</div>'
+        +'<div class="game-progress">'+map[n].length+' wedstrijd'+(map[n].length===1?'':'en')+'</div>'
+        +'</button>';
+    });
+    h+='</div>';
+    if(!names.length) h='<div class="rules-placeholder"><div class="rules-placeholder-sub">Nog geen scheidsrechters in het schema.</div></div>';
+    el.innerHTML=h;
+  } else {
+    const items=map[refSel]||[];
+    title.textContent=refSel;
+    sub.textContent=items.length+' wedstrijd'+(items.length===1?'':'en')+' op zaterdag';
+    let h='<div class="panel"><div class="panel-title gold">👨‍⚖️ Programma '+refSel+'</div>';
+    items.forEach(it=>{
+      h+='<div style="display:flex;gap:12px;padding:11px 2px;border-bottom:1px solid var(--border-subtle);align-items:center">'
+        +'<div style="min-width:92px">'
+          +'<div style="font-family:\'Oswald\',sans-serif;font-weight:600;color:var(--accent)">'+it.tijd+'</div>'
+          +'<div style="font-size:11px;color:var(--muted)">veld '+it.veld+'</div></div>'
+        +'<div style="flex:1">'
+          +'<div style="font-weight:600">'+it.a+' <span style="color:var(--muted)">—</span> '+it.b+'</div>'
+          +'<div style="font-size:11px;color:var(--muted)">'+it.fase+'</div></div></div>';
+    });
+    if(!items.length) h+='<p class="rules-text">Geen wedstrijden gevonden.</p>';
+    h+='</div>';
+    el.innerHTML=h;
+  }
+}
 function showCoach(){ hideAllPages(); document.getElementById('page-coach').style.display='block'; updateCoachView(); window.scrollTo(0,0); }
 
 /* ═══════════ BONDSCOACHES (alleen lezen) ═══════════ */
@@ -1370,71 +1443,70 @@ const SAT_FLAGS = {
   "Brazilië":"🇧🇷","Australië":"🇦🇺","Frankrijk":"🇫🇷","Argentinië":"🇦🇷","Duitsland":"🇩🇪","Nederland":"🇳🇱"
 };
 const SAT_POULES = {
-  A: ["Spanje","Marokko","Saoedi Arabië","Zweden","Japan","Curaçao","Verenigde Staten","Engeland"],
-  B: ["Portugal","Mexico","Brazilië","Australië","Frankrijk","Argentinië","Duitsland","Nederland"]
+  A: ["Marokko", "Saoedi Arabië", "Brazilië", "Spanje", "Japan", "Frankrijk", "Verenigde Staten", "Engeland"],
+  B: ["Portugal", "Mexico", "Zweden", "Australië", "Curaçao", "Argentinië", "Duitsland", "Nederland"]
 };
-// Wedstrijden per poule. [ronde, veld, tijd, scheids, team1, team2]
-// NB: in Poule A is "Duitsland" uit het bronschema vervangen door "Japan" (zie toelichting).
+// Wedstrijden per poule (volledige halve competitie). [ronde, veld, tijd, scheids, team1, team2]
 const SAT_RAW = {
   A: [
-    [1,"1A","9.00-9.12","Scheids 1","Marokko","Saoedi Arabië"],
-    [1,"1B","9.00-9.12","Scheids 2","Zweden","Spanje"],
-    [1,"2A","9.00-9.12","Scheids 3","Japan","Curaçao"],
-    [2,"1A","9.17-9.29","Scheids 4","Verenigde Staten","Engeland"],
-    [2,"1B","9.17-9.29","Scheids 5","Curaçao","Saoedi Arabië"],
-    [2,"2A","9.17-9.29","Scheids 6","Marokko","Spanje"],
-    [3,"1A","9.34-9.46","Scheids 7","Verenigde Staten","Japan"],
-    [3,"1B","9.34-9.46","Scheids 8","Zweden","Engeland"],
-    [3,"2A","9.34-9.46","Scheids 1","Marokko","Curaçao"],
-    [4,"1A","9.51-10.03","Scheids 2","Japan","Zweden"],
-    [4,"1B","9.51-10.03","Scheids 3","Engeland","Spanje"],
-    [4,"2A","9.51-10.03","Scheids 4","Saoedi Arabië","Verenigde Staten"],
-    [5,"1A","10.18-10.30","Scheids 5","Engeland","Marokko"],
-    [5,"1B","10.18-10.30","Scheids 6","Zweden","Saoedi Arabië"],
-    [5,"2A","10.18-10.30","Scheids 7","Verenigde Staten","Curaçao"],
-    [6,"1A","10.35-10.47","Scheids 8","Spanje","Japan"],
-    [6,"1B","10.35-10.47","Scheids 1","Marokko","Verenigde Staten"],
-    [6,"2A","10.35-10.47","Scheids 2","Curaçao","Zweden"],
-    [7,"1A","10.52-11.04","Scheids 3","Japan","Engeland"],
-    [7,"1B","10.52-11.04","Scheids 4","Saoedi Arabië","Spanje"],
-    [7,"2A","10.52-11.04","Scheids 5","Zweden","Verenigde Staten"],
-    [8,"1A","11.19-11.31","Scheids 6","Marokko","Japan"],
-    [8,"1B","11.19-11.31","Scheids 7","Spanje","Curaçao"],
-    [8,"2A","11.19-11.31","Scheids 8","Engeland","Saoedi Arabië"],
-    [9,"1A","11.36-11.48","Scheids 1","Marokko","Zweden"],
-    [9,"1B","11.36-11.48","Scheids 2","Verenigde Staten","Spanje"],
-    [9,"2A","11.36-11.48","Scheids 3","Curaçao","Engeland"],
-    [10,"1A","11.53-12.05","Scheids 4","Saoedi Arabië","Japan"]
+    [1,"1A","9.00-9.12","Willem van Heerdt","Marokko","Saoedi Arabië"],
+    [1,"1B","9.00-9.12","Sam de Roo","Brazilië","Spanje"],
+    [1,"2A","9.00-9.12","Corné van Schaik","Japan","Frankrijk"],
+    [2,"1A","9.17-9.29","Bart Verweij","Verenigde Staten","Engeland"],
+    [2,"1B","9.17-9.29","Jeroen Beaard","Frankrijk","Saoedi Arabië"],
+    [2,"2A","9.17-9.29","Michel Lentink","Marokko","Spanje"],
+    [3,"1A","9.34-9.46","Nico van de Wollenberg","Verenigde Staten","Japan"],
+    [3,"1B","9.34-9.46","Kes van Linschoten","Brazilië","Engeland"],
+    [3,"2A","9.34-9.46","Jack Hidden","Marokko","Frankrijk"],
+    [4,"1A","9.51-10.03","Willem van Heerdt","Japan","Brazilië"],
+    [4,"1B","9.51-10.03","Sam de Roo","Engeland","Spanje"],
+    [4,"2A","9.51-10.03","Corné van Schaik","Saoedi Arabië","Verenigde Staten"],
+    [5,"1A","10.18-10.30","Bart Verweij","Engeland","Marokko"],
+    [5,"1B","10.18-10.30","Jeroen Beaard","Brazilië","Saoedi Arabië"],
+    [5,"2A","10.18-10.30","Michel Lentink","Verenigde Staten","Frankrijk"],
+    [6,"1A","10.35-10.47","Nico van de Wollenberg","Spanje","Japan"],
+    [6,"1B","10.35-10.47","Kes van Linschoten","Marokko","Verenigde Staten"],
+    [6,"2A","10.35-10.47","Jack Hidden","Frankrijk","Brazilië"],
+    [7,"1A","10.52-11.04","Willem van Heerdt","Japan","Engeland"],
+    [7,"1B","10.52-11.04","Sam de Roo","Saoedi Arabië","Spanje"],
+    [7,"2A","10.52-11.04","Corné van Schaik","Brazilië","Verenigde Staten"],
+    [8,"1A","11.19-11.31","Bart Verweij","Marokko","Japan"],
+    [8,"1B","11.19-11.31","Jeroen Beaard","Spanje","Frankrijk"],
+    [8,"2A","11.19-11.31","Michel Lentink","Engeland","Saoedi Arabië"],
+    [9,"1A","11.36-11.48","Nico van de Wollenberg","Marokko","Brazilië"],
+    [9,"1B","11.36-11.48","Kes van Linschoten","Verenigde Staten","Spanje"],
+    [9,"2A","11.36-11.48","Jack Hidden","Frankrijk","Engeland"],
+    [10,"1A","11.53-12.05","Willem van Heerdt","Saoedi Arabië","Japan"],
   ],
   B: [
-    [1,"2B","9.00-9.12","Scheids 6","Portugal","Mexico"],
-    [1,"3A","9.00-9.12","Scheids 7","Brazilië","Australië"],
-    [1,"3B","9.00-9.12","Scheids 8","Frankrijk","Argentinië"],
-    [2,"2B","9.17-9.29","Scheids 1","Duitsland","Nederland"],
-    [2,"3A","9.17-9.29","Scheids 2","Argentinië","Mexico"],
-    [2,"3B","9.17-9.29","Scheids 3","Portugal","Australië"],
-    [3,"2B","9.34-9.46","Scheids 4","Duitsland","Frankrijk"],
-    [3,"3A","9.34-9.46","Scheids 5","Brazilië","Nederland"],
-    [3,"3B","9.34-9.46","Scheids 6","Portugal","Argentinië"],
-    [4,"2B","9.51-10.03","Scheids 7","Frankrijk","Brazilië"],
-    [4,"3A","9.51-10.03","Scheids 8","Nederland","Australië"],
-    [4,"3B","9.51-10.03","Scheids 1","Mexico","Duitsland"],
-    [5,"2B","10.18-10.30","Scheids 2","Nederland","Portugal"],
-    [5,"3A","10.18-10.30","Scheids 3","Brazilië","Mexico"],
-    [5,"3B","10.18-10.30","Scheids 4","Duitsland","Argentinië"],
-    [6,"2B","10.35-10.47","Scheids 5","Australië","Frankrijk"],
-    [6,"3A","10.35-10.47","Scheids 6","Portugal","Duitsland"],
-    [6,"3B","10.35-10.47","Scheids 7","Argentinië","Brazilië"],
-    [7,"2B","10.52-11.04","Scheids 8","Frankrijk","Nederland"],
-    [7,"3A","10.52-11.04","Scheids 1","Mexico","Australië"],
-    [7,"3B","10.52-11.04","Scheids 2","Brazilië","Duitsland"],
-    [8,"2B","11.19-11.31","Scheids 3","Portugal","Frankrijk"],
-    [8,"3A","11.19-11.31","Scheids 4","Australië","Argentinië"],
-    [8,"3B","11.19-11.31","Scheids 5","Nederland","Mexico"],
-    [9,"2B","11.36-11.48","Scheids 6","Portugal","Brazilië"],
-    [9,"3A","11.36-11.48","Scheids 7","Duitsland","Australië"],
-    [9,"3B","11.36-11.48","Scheids 8","Argentinië","Nederland"],
-    [10,"2B","11.53-12.05","Scheids 1","Mexico","Frankrijk"]
+    [1,"2B","9.00-9.12","Nico van de Wollenberg","Portugal","Mexico"],
+    [1,"3A","9.00-9.12","Kes van Linschoten","Zweden","Australië"],
+    [1,"3B","9.00-9.12","Jack Hidden","Curaçao","Argentinië"],
+    [2,"2B","9.17-9.29","Willem van Heerdt","Duitsland","Nederland"],
+    [2,"3A","9.17-9.29","Sam de Roo","Argentinië","Mexico"],
+    [2,"3B","9.17-9.29","Corné van Schaik","Portugal","Australië"],
+    [3,"2B","9.34-9.46","Bart Verweij","Duitsland","Curaçao"],
+    [3,"3A","9.34-9.46","Jeroen Beaard","Zweden","Nederland"],
+    [3,"3B","9.34-9.46","Michel Lentink","Portugal","Argentinië"],
+    [4,"2B","9.51-10.03","Nico van de Wollenberg","Curaçao","Zweden"],
+    [4,"3A","9.51-10.03","Kes van Linschoten","Nederland","Australië"],
+    [4,"3B","9.51-10.03","Jack Hidden","Mexico","Duitsland"],
+    [5,"2B","10.18-10.30","Willem van Heerdt","Nederland","Portugal"],
+    [5,"3A","10.18-10.30","Sam de Roo","Zweden","Mexico"],
+    [5,"3B","10.18-10.30","Corné van Schaik","Duitsland","Argentinië"],
+    [6,"2B","10.35-10.47","Bart Verweij","Australië","Curaçao"],
+    [6,"3A","10.35-10.47","Jeroen Beaard","Portugal","Duitsland"],
+    [6,"3B","10.35-10.47","Michel Lentink","Argentinië","Zweden"],
+    [7,"2B","10.52-11.04","Nico van de Wollenberg","Curaçao","Nederland"],
+    [7,"3A","10.52-11.04","Kes van Linschoten","Mexico","Australië"],
+    [7,"3B","10.52-11.04","Jack Hidden","Zweden","Duitsland"],
+    [8,"2B","11.19-11.31","Willem van Heerdt","Portugal","Curaçao"],
+    [8,"3A","11.19-11.31","Sam de Roo","Australië","Argentinië"],
+    [8,"3B","11.19-11.31","Corné van Schaik","Nederland","Mexico"],
+    [9,"2B","11.36-11.48","Bart Verweij","Portugal","Zweden"],
+    [9,"3A","11.36-11.48","Jeroen Beaard","Duitsland","Australië"],
+    [9,"3B","11.36-11.48","Michel Lentink","Argentinië","Nederland"],
+    [10,"2B","11.53-12.05","Nico van de Wollenberg","Mexico","Curaçao"],
   ]
 };
 const satMatches = {
@@ -1563,24 +1635,27 @@ function renderStandings(){
 }
 
 /* ─── Knock-out fase (plaats 1 t/m 4) ─── */
-function stand(p, i){ const s = computeStandings(p); return s[i] ? s[i].name : null; }
+function satComplete(p){ return satMatches[p].every(m=>m.sa!==null&&m.sb!==null); }
+function stand(p, i){ if(!satComplete(p)) return null; const s = computeStandings(p); return s[i] ? s[i].name : null; }
 
 const KO = [
-  { id:'KF1', label:'Kruisfinale 1', veld:'1A', tijd:'12:35', resolve:()=>[stand('A',0), stand('B',1)] },
-  { id:'KF2', label:'Kruisfinale 2', veld:'1B', tijd:'12:35', resolve:()=>[stand('A',1), stand('B',0)] },
-  { id:'P34', label:'Om 3e/4e plaats', veld:'2A', tijd:'13:15', resolve:()=>[koLoser('KF1'), koLoser('KF2')] },
-  { id:'FIN', label:'Finale', veld:'2A', tijd:'13:30', resolve:()=>[koWinner('KF1'), koWinner('KF2')] }
+  { id:'KF1', label:'Kruisfinale 1', veld:'1A', tijd:'12:35', scheids:'Sam de Roo',            lbl:['Poule A · 1e','Poule B · 2e'], resolve:()=>[stand('A',0), stand('B',1)] },
+  { id:'KF2', label:'Kruisfinale 2', veld:'1B', tijd:'12:35', scheids:'Willem van Heerdt',      lbl:['Poule B · 1e','Poule A · 2e'], resolve:()=>[stand('B',0), stand('A',1)] },
+  { id:'P15', label:'15e/16e plaats', veld:'1A', tijd:'12:55', scheids:'Kes van Linschoten',    lbl:['Poule A · 8e','Poule B · 8e'], resolve:()=>[stand('A',7), stand('B',7)] },
+  { id:'P13', label:'13e/14e plaats', veld:'1B', tijd:'12:55', scheids:'Corné van Schaik',      lbl:['Poule A · 7e','Poule B · 7e'], resolve:()=>[stand('A',6), stand('B',6)] },
+  { id:'P11', label:'11e/12e plaats', veld:'2A', tijd:'12:55', scheids:'Bart Verweij',          lbl:['Poule A · 6e','Poule B · 6e'], resolve:()=>[stand('A',5), stand('B',5)] },
+  { id:'P9',  label:'9e/10e plaats', veld:'2B', tijd:'12:55', scheids:'Jeroen Beaard',          lbl:['Poule A · 5e','Poule B · 5e'], resolve:()=>[stand('A',4), stand('B',4)] },
+  { id:'P7',  label:'7e/8e plaats', veld:'3A', tijd:'12:55', scheids:'Michel Lentink',          lbl:['Poule A · 4e','Poule B · 4e'], resolve:()=>[stand('A',3), stand('B',3)] },
+  { id:'P5',  label:'5e/6e plaats', veld:'3B', tijd:'12:55', scheids:'Nico van de Wollenberg',  lbl:['Poule A · 3e','Poule B · 3e'], resolve:()=>[stand('A',2), stand('B',2)] },
+  { id:'P34', label:'3e/4e plaats', veld:'2A', tijd:'13:15', scheids:'Willem van Heerdt',       lbl:['Verliezer kruisfinale 1','Verliezer kruisfinale 2'], resolve:()=>[koLoser('KF1'), koLoser('KF2')] },
+  { id:'FIN', label:'Finale', veld:'2A', tijd:'13:30', scheids:'Robbin Witteveen',              lbl:['Winnaar kruisfinale 1','Winnaar kruisfinale 2'], resolve:()=>[koWinner('KF1'), koWinner('KF2')] }
 ];
-const koMatches = KO.map(k => ({ id:k.id, label:k.label, veld:k.veld, tijd:k.tijd, resolve:k.resolve, sa:null, sb:null, locked:false, spA:false, spB:false }));
+const koMatches = KO.map(k => ({ id:k.id, label:k.label, veld:k.veld, tijd:k.tijd, scheids:k.scheids, lbl:k.lbl, resolve:k.resolve, sa:null, sb:null, locked:false, spA:false, spB:false }));
 
 function koById(id){ return koMatches.find(k=>k.id===id); }
 function koWinner(id){ const k=koById(id); const [a,b]=k.resolve(); if(k.sa==null||k.sb==null||k.sa===k.sb) return null; return k.sa>k.sb?a:b; }
 function koLoser(id){ const k=koById(id); const [a,b]=k.resolve(); if(k.sa==null||k.sb==null||k.sa===k.sb) return null; return k.sa>k.sb?b:a; }
-function koSideLabel(id, side){
-  if(id==='FIN') return side===0 ? 'Winnaar kruisfinale 1' : 'Winnaar kruisfinale 2';
-  if(id==='P34') return side===0 ? 'Verliezer kruisfinale 1' : 'Verliezer kruisfinale 2';
-  return 'Nader te bepalen';
-}
+function koSideLabel(id, side){ const k=koById(id); return (k&&k.lbl&&k.lbl[side])?k.lbl[side]:'Nader te bepalen'; }
 function koTeamLabel(k, side){
   const name = k.resolve()[side];
   return name ? `${SAT_FLAGS[name]||''} ${name}` : koSideLabel(k.id, side);
@@ -1598,7 +1673,7 @@ function renderKnockout(){
     const status = k.locked ? '🔒 Vastgezet' : (filled ? 'Tik om aan te passen' : 'Tik om in te voeren');
     card.innerHTML=`
       <div class="entry-match-meta">
-        <div class="entry-ronde">${k.label} · Veld ${k.veld}</div>
+        <div class="entry-ronde">${k.label} · Veld ${k.veld}${k.scheids?' · '+k.scheids:''}</div>
         <div class="entry-time">${k.tijd}</div>
       </div>
       <div class="entry-teams-view">
