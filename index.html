@@ -397,6 +397,7 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
       <div class="choice-sub">2 poules · knock-out & plaatsing</div>
     </button>
   </div>
+  <button class="proj-entry" onclick="showProgramma()" style="margin-bottom:10px">📅 Algemeen programma</button>
   <button class="proj-entry" onclick="showRefSched()" style="margin-bottom:10px">👨‍⚖️ Programma per scheidsrechter</button>
   <button class="proj-entry" onclick="showStandings()">📺 Standen voor groot scherm (organisatie)</button>
 </div>
@@ -537,6 +538,17 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
 </div>
 
 <!-- ══════════ STANDEN — GROOT SCHERM (organisatie) ══════════ -->
+<!-- ══════════ ALGEMEEN PROGRAMMA ══════════ -->
+<div id="page-programma" class="container">
+  <button class="back-btn" onclick="showLanding()">← Terug</button>
+  <div class="hero">
+    <div class="hero-badge">📅 Pupillenweekend Altius</div>
+    <h1>Algemeen <span>programma</span></h1>
+    <p>Het volledige weekendoverzicht</p>
+  </div>
+  <div id="programmaBody"></div>
+</div>
+
 <!-- ══════════ PROGRAMMA PER SCHEIDSRECHTER ══════════ -->
 <div id="page-refsched" class="container">
   <button class="back-btn" onclick="refSchedBack()">← Terug</button>
@@ -684,7 +696,7 @@ const RULES = [
   },
   { // 1 Wereldbal parcours
     uitleg: [
-      "Eén speler neemt plaats op de bal; het hele team begeleidt de bal over het parcours. Het parcours loopt over de breedte van het veld — één keer heen en weer is een ronde.",
+      "Eén speler neemt plaats op de bal; het hele team begeleidt de bal over het parcours. Het parcours loopt over de lengte van het veld — één keer heen en weer is een ronde.",
       "Na elke ronde gaat een andere deelnemer op de bal. Herhalen tot de tijd om is. Staat het gelijk en ligt een ploeg voor in de laatste, onafgemaakte ronde, dan krijgen zij dat punt ook."
     ],
     scoren: "Voer per team het aantal voltooide rondes in."
@@ -692,7 +704,7 @@ const RULES = [
   { // 2 Kussengevecht
     uitleg: [
       "Eén speler van elk team (gematcht op leeftijd) staat op de balk. Met de opblaaskussens probeer je elkaar van de balk te krijgen; de winnaar van een duel krijgt een punt.",
-      "Elke minuut start een nieuw duel. Alle spelers én bondscoaches komen aan de beurt, maximaal één keer per ronde. Daarna mogen de kids vrij doorvechten, maar dat telt niet mee voor de score."
+      "Elke minuut start een nieuw duel. Alle spelers én bondscoaches komen aan de beurt, maximaal één keer per ronde. Zitten beide spelers na een minuut nog op de balk, dan is het gelijk en krijgen beide teams een punt. Omdat de tijd krap is, helpen de bondscoaches met snel wisselen van de kids."
     ],
     scoren: "Voer per team het totaal aantal gewonnen duels in."
   },
@@ -706,9 +718,9 @@ const RULES = [
   { // 4 Stormbaan estafette
     uitleg: [
       "Na het startsignaal gaat het eerste teamlid over de stormbaan en rent via de zijkant terug naar het team. Na een high-five mag het volgende teamlid starten.",
-      "Dit herhaal je tot de tijd om is. Het team dat de baan het vaakst heeft gehaald, wint."
+      "Dit herhaal je tot de tijd om is. Het puntenaantal is gelijk aan het aantal spelers dat de stormbaan helemaal heeft afgerond."
     ],
-    scoren: "Winnaar krijgt 1 punt: vul 1–0 in voor het winnende team."
+    scoren: "Voer per team het aantal spelers in dat de stormbaan volledig heeft afgerond."
   },
   { // 5 Dribbel + snelheid
     uitleg: [
@@ -720,14 +732,14 @@ const RULES = [
   { // 6 Pannavoetbal
     uitleg: [
       "Twee teams van 10 spelers, elk verdeeld in 5 duo's. Op 3 veldjes speelt steeds 2 tegen 2 — 6 spelers per team actief, de rest wacht kort en rouleert door. Stel elk duo samen met een jongere (O10 of jonger) en een oudere (O11 of hoger) speler.",
-      "Speel 4 rondes van 3 minuten. De winnaar blijft staan; de verliezer wisselt met een rustend duo van hetzelfde team. Bij gelijkspel wisselen beide duo's."
+      "Speel 3 rondes van 4 minuten. De winnaar blijft staan; de verliezer wisselt met een rustend duo van hetzelfde team. Bij gelijkspel wisselen beide duo's. Een team mag maximaal 2 rondes blijven staan."
     ],
     punten: ["Doelpunt = 1 punt", "Panna = 3 punten", "Panna gevolgd door doelpunt binnen 10 sec = 5 punten"],
     scoren: "Tel alle punten per team bij elkaar op en voer dat in."
   },
   { // 7 Brandweervoetbal
     uitleg: [
-      "Twee teams strijden op een kwart veld met pupillengoals; gewone voetbalregels — wie scoort de meeste doelpunten?",
+      "Twee teams strijden op een half veld met pupillengoals; gewone voetbalregels — wie scoort de meeste doelpunten?",
       "Met dit verschil: de brandweer schiet de bal uit de goal én maakt de pupillen flink nat."
     ],
     scoren: "Voer de eindscore (doelpunten) per team in."
@@ -1030,6 +1042,7 @@ function hideAllPages() {
   document.getElementById('page-saturday').style.display='none';
   document.getElementById('page-standings').style.display='none';
   document.getElementById('page-refsched').style.display='none';
+  document.getElementById('page-programma').style.display='none';
   document.getElementById('page-coach').style.display='none';
   document.getElementById('page-game').classList.remove('visible');
 }
@@ -1037,6 +1050,38 @@ function showLanding() { hideAllPages(); document.getElementById('page-landing')
 function showFriday()  { hideAllPages(); document.getElementById('page-home').style.display='block'; renderAll(); window.scrollTo(0,0); }
 function showSaturday(){ hideAllPages(); renderSatPoule('A'); renderSatPoule('B'); renderKnockout(); document.getElementById('page-saturday').style.display='block'; window.scrollTo(0,0); }
 function showStandings(){ hideAllPages(); renderStandings(); document.getElementById('page-standings').style.display='block'; window.scrollTo(0,0); }
+
+/* ═══════════ ALGEMEEN PROGRAMMA ═══════════ */
+function showProgramma(){ hideAllPages(); document.getElementById('programmaBody').innerHTML=programmaHTML(); document.getElementById('page-programma').style.display='block'; window.scrollTo(0,0); }
+function programmaHTML(){
+  const row=(t,a)=>'<div style="display:flex;gap:12px;padding:9px 2px;border-bottom:1px solid var(--border-subtle)">'
+    +'<div style="min-width:104px;font-family:\'Oswald\',sans-serif;font-weight:600;color:var(--accent)">'+t+'</div>'
+    +'<div style="flex:1">'+a+'</div></div>';
+  const sub=(t)=>'<div style="font-family:\'Oswald\',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);margin:14px 0 4px">'+t+'</div>';
+  let h='<div class="panel"><div class="panel-title">🗓️ Vrijdag</div>'
+    + row('17:30','Aankomst')
+    + row('18:30','Opening')
+    + row('19:00','Groepsfoto')
+    + row('19:15','Start spelletjestoernooi')
+    + row('22:15','Einde spelletjes')
+    + sub('⚽ LED Voetbal')
+    + row('22:30 – 23:15','Onder 8')
+    + row('23:15 – 00:00','Onder 9 &amp; Onder 10')
+    + sub('👻 Spokentocht')
+    + row('23:05','Klaarstaan O11')
+    + row('23:15','Klaarstaan O12')
+    + row('23:30','Klaarstaan O13')
+    + row('23:45','Verhaal / start spokentocht')
+    + row('00:30','Eerste teams terug')
+    + '</div>';
+  h+='<div class="panel"><div class="panel-title gold">🗓️ Zaterdag</div>'
+    + row('08:15','Ontbijt')
+    + row('08:45','Warming-up')
+    + row('09:00','Voetbaltoernooi')
+    + row('13:30','Finale')
+    + '</div>';
+  return h;
+}
 
 /* ═══════════ PROGRAMMA PER SCHEIDSRECHTER ═══════════ */
 let refSel=null;
