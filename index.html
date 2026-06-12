@@ -279,6 +279,13 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
 
 /* LANDING / KEUZE */
 .choice-grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+.nav-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; margin-top: 14px; }
+.nav-card { display: flex; flex-direction: column; align-items: center; gap: 9px; text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 12px; cursor: pointer; transition: all .15s; color: var(--text); }
+.nav-card:active { transform: scale(0.98); }
+@media (hover:hover) { .nav-card:hover { border-color: var(--accent); transform: translateY(-2px); } }
+.nav-icon { font-size: 26px; line-height: 1; }
+.nav-label { font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #fff; line-height: 1.25; }
+.org-entry { margin-top: 14px; }
 @media (min-width: 560px) { .choice-grid { grid-template-columns: 1fr 1fr; } }
 .choice-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
@@ -410,9 +417,17 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
       <div class="choice-sub">2 poules · knock-out & plaatsing</div>
     </button>
   </div>
-  <button class="proj-entry" onclick="showProgramma()" style="margin-bottom:10px">📅 Algemeen programma</button>
-  <button class="proj-entry" onclick="showRefSched()" style="margin-bottom:10px">👨‍⚖️ Programma per scheidsrechter</button>
-  <button class="proj-entry" onclick="showStandings()">📺 Standen voor groot scherm (organisatie)</button>
+  <div class="nav-grid">
+    <button class="nav-card" onclick="showProgramma()">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">Algemeen programma</span>
+    </button>
+    <button class="nav-card" onclick="showRefSched()">
+      <span class="nav-icon">👨‍⚖️</span>
+      <span class="nav-label">Programma per scheidsrechter</span>
+    </button>
+  </div>
+  <button class="proj-entry org-entry" onclick="showStandings()">📺 Standen voor groot scherm (organisatie)</button>
 </div>
 
 <!-- ══════════ VRIJDAG — HOME ══════════ -->
