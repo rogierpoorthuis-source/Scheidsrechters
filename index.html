@@ -42,6 +42,19 @@ body::before {
 .hero h1 span { color: var(--accent); }
 .hero p { margin-top: 10px; color: var(--muted); font-size: 14px; font-weight: 300; }
 .cloud-pill { display: inline-block; margin-top: 12px; font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-subtle); color: var(--muted); }
+.test-overview-btn { display:block; width:100%; margin-top:14px; background:transparent; border:1px dashed var(--border-subtle); color:var(--muted); font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:11px; border-radius:10px; cursor:pointer; transition:all .15s; }
+.test-overview-btn:hover { color:var(--accent); border-color:var(--border); }
+.gp-test { margin-bottom:18px; }
+.gp-test-btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; background:transparent; border:1px dashed var(--border-subtle); color:var(--muted); font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:10px; border-radius:10px; cursor:pointer; transition:all .15s; }
+.gp-test-btn:hover { color:var(--accent); border-color:var(--border); }
+.gp-test-btn.done { color:var(--green); border-color:rgba(34,197,94,0.4); border-style:solid; background:rgba(34,197,94,0.06); cursor:default; }
+.test-row { display:flex; align-items:center; gap:10px; padding:9px 4px; border-bottom:1px solid var(--border-subtle); }
+.test-row .tr-icon { font-size:15px; }
+.test-row .tr-name { flex:1; font-size:13px; }
+.test-row .tr-status { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; }
+.test-row.ok .tr-name { color:var(--text); }
+.test-row.ok .tr-status { color:var(--green); }
+.test-row .tr-status.wait { color:var(--muted); }
 .cloud-pill.live { color: var(--green); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.06); }
 .cloud-pill.offline { color: var(--accent2); border-color: rgba(245,158,11,0.3); }
 
@@ -436,6 +449,7 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
   <!-- GAME BUTTONS -->
   <div class="section-label">Kies uw spel</div>
   <div class="games-grid" id="gamesGrid"></div>
+  <button class="test-overview-btn" onclick="showTestOverview()">📡 Verbindingstest — overzicht aangemelde spellen</button>
 
   <!-- RESULTS READ-ONLY -->
   <div class="panel" style="margin-top:28px">
@@ -455,6 +469,8 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
       <p id="gp-sub">Scheidsrechter — Scores invoeren</p>
     </div>
   </div>
+
+  <div id="gp-test" class="gp-test"></div>
 
   <!-- SPELREGELS -->
   <div class="panel">
@@ -539,7 +555,18 @@ body.org-active .org-fab { background: var(--accent); border-color: var(--accent
 </div>
 
 <!-- ══════════ STANDEN — GROOT SCHERM (organisatie) ══════════ -->
-<!-- ══════════ ALGEMEEN PROGRAMMA ══════════ -->
+<!-- ══════════ VERBINDINGSTEST-OVERZICHT ══════════ -->
+<div id="testModal" class="modal-overlay" onclick="if(event.target===this)closeTest()">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-round">📡 Verbindingstest</div>
+    <p class="modal-hint">Laat iedere scheidsrechter op de spelpagina op "Meld dit spel aan" tikken. Hieronder zie je live binnenkomen welke spellen verbinding hebben met de database.</p>
+    <div id="testList"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="m-btn ghost" onclick="resetTest()">Test wissen</button>
+      <button class="m-btn solid" onclick="closeTest()">Sluiten</button>
+    </div>
+  </div>
+</div>
 <div id="page-programma" class="container">
   <button class="back-btn" onclick="showLanding()">← Terug</button>
   <div class="hero">
@@ -993,6 +1020,7 @@ function showGame(gameIdx, keepScroll) {
   document.getElementById('gp-icon').textContent=GAME_ICONS[gameIdx];
   document.getElementById('gp-name').textContent=GAMES[gameIdx];
   renderRules(gameIdx);
+  renderGameTestBtn();
 
   const c=document.getElementById('gp-matches');
   c.innerHTML='';
@@ -1435,11 +1463,21 @@ function exportExcel(){
   if(typeof XLSX==='undefined'){ alert('Excel-bibliotheek nog niet geladen — even opnieuw proberen.'); return; }
   const nv=x=>(x===null||x===undefined)?'':x;
   const wb=XLSX.utils.book_new();
-  // Tabblad Vrijdag
-  const fri=[['Ronde','Tijd','Spel','Team 1','Team 2','Score 1','Score 2']];
-  state.rounds.forEach(r=>r.matches.forEach(m=>{ const a=player(m.a),b=player(m.b);
-    fri.push([r.round,r.time,GAMES[m.gameIdx],a.name,b.name,nv(m.sa),nv(m.sb)]); }));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(fri),'Vrijdag');
+  // Tabblad Spelletjes — matrix: landen (rijen) × spelletjes (kolommen)
+  const teamNames=[]; for(let i=0;i<16;i++) teamNames.push(player(i).name);
+  const friMat={}; teamNames.forEach(n=>friMat[n]={});
+  state.rounds.forEach(r=>r.matches.forEach(m=>{
+    friMat[player(m.a).name][m.gameIdx]=m.sa;
+    friMat[player(m.b).name][m.gameIdx]=m.sb;
+  }));
+  const fri=[['Land',...GAMES]];
+  teamNames.slice().sort((x,y)=>x.localeCompare(y,'nl')).forEach(n=>{
+    const row=[n]; for(let gi=0;gi<GAMES.length;gi++) row.push(nv(friMat[n][gi]));
+    fri.push(row);
+  });
+  const friWs=XLSX.utils.aoa_to_sheet(fri);
+  friWs['!cols']=[{wch:18}, ...GAMES.map(()=>({wch:13}))];
+  XLSX.utils.book_append_sheet(wb,friWs,'Spelletjes');
   // Tabblad Zaterdag
   const zat=[['Onderdeel','Ronde/Fase','Tijd','Veld','Team 1','Team 2','Score 1','Score 2','Sport 1','Sport 2']];
   ['A','B'].forEach(p=>satMatches[p].forEach(m=>{
@@ -1457,6 +1495,50 @@ function exportExcel(){
   XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sp),'Sportiviteit');
   const d=new Date(), z=n=>('0'+n).slice(-2);
   XLSX.writeFile(wb,'pupillenweekend-scores-'+d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+'-'+z(d.getHours())+z(d.getMinutes())+'.xlsx');
+}
+
+/* ═══════════ VERBINDINGSTEST (per spel aanmelden) ═══════════ */
+let testCheckins = {};
+function testCheckIn(gi){
+  if(!window.AppCloud || !window.AppCloud.push){
+    alert('Geen verbinding met de database. Staat de app online en ben je ingelogd?\n\n(Dat is precies wat deze test moet uitwijzen — los dit op vóór het toernooi.)');
+    return;
+  }
+  const ts = Date.now();
+  testCheckins[gi] = ts;
+  window.AppCloud.push('test_g'+gi, ts);
+  renderGameTestBtn();
+  renderTestOverview();
+}
+function fmtTime(ms){ const t=new Date(ms); return ('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2); }
+function renderGameTestBtn(){
+  const el = document.getElementById('gp-test');
+  if(!el || curGame===null) return;
+  if(testCheckins[curGame]){
+    el.innerHTML = '<button class="gp-test-btn done">✅ Aangemeld voor de verbindingstest om '+fmtTime(testCheckins[curGame])+'</button>';
+  } else {
+    el.innerHTML = '<button class="gp-test-btn" onclick="testCheckIn('+curGame+')">📡 Meld dit spel aan (verbindingstest)</button>';
+  }
+}
+function showTestOverview(){ renderTestOverview(); document.getElementById('testModal').classList.add('open'); }
+function closeTest(){ document.getElementById('testModal').classList.remove('open'); }
+function renderTestOverview(){
+  const el = document.getElementById('testList'); if(!el) return;
+  let done=0, rows='';
+  GAMES.forEach((g,gi)=>{
+    const ok = !!testCheckins[gi]; if(ok) done++;
+    rows += '<div class="test-row '+(ok?'ok':'')+'"><span class="tr-icon">'+(ok?'✅':'⚪')+'</span>'
+      + '<span class="tr-name">'+GAME_ICONS[gi]+' '+g+'</span>'
+      + '<span class="tr-status '+(ok?'':'wait')+'">'+(ok?fmtTime(testCheckins[gi]):'Nog niet')+'</span></div>';
+  });
+  el.innerHTML = '<div style="font-family:\'Oswald\',sans-serif;font-size:14px;color:'+(done===GAMES.length?'var(--green)':'var(--accent)')+';margin-bottom:8px">'
+    + done+' / '+GAMES.length+' spellen aangemeld'+(done===GAMES.length?' — alles verbonden! 🎉':'')+'</div>' + rows;
+}
+function resetTest(){
+  if(!confirm('Verbindingstest wissen voor alle apparaten?')) return;
+  testCheckins={};
+  if(window.AppCloud && window.AppCloud.push){ for(let gi=0;gi<GAMES.length;gi++) window.AppCloud.push('test_g'+gi, 0); }
+  renderTestOverview(); renderGameTestBtn();
 }
 
 /* ═══════════ INLOG SCHEIDSRECHTERS / ORGANISATIE ═══════════ */
@@ -1806,6 +1888,16 @@ function applyRemote(data){
       changed = true;
     }
   });
+  // Verbindingstest-aanmeldingen (aparte sleutels per spel: test_g0..test_g8)
+  let testChanged=false;
+  for(let gi=0; gi<GAMES.length; gi++){
+    const v=data['test_g'+gi];
+    if(v!==undefined){
+      if(v){ if(testCheckins[gi]!==v){ testCheckins[gi]=v; testChanged=true; } }
+      else if(testCheckins[gi]){ delete testCheckins[gi]; testChanged=true; }
+    }
+  }
+  if(testChanged){ renderTestOverview(); renderGameTestBtn(); }
   if (!changed) return;
   saveState(); saveSat();
   recompute();
